@@ -1,0 +1,21 @@
+Package: polygon
+Title: R Websockets & RESTful API client for Polygon
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ernest", 
+           family = "Omane-Kodie", 
+           email = "eokodie@gmail.com", 
+           role = c("aut", "cre"))
+Description: Provides an R WebSocket and RESTful client interface for Polygon.
+    Polygon is a platform for real-time and historical financial market data
+    including stocks APIs, forex, crypto, and more: <https://polygon.io/>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    httr,
+    jsonlite,
+    tibble,
+    glue,
+    websocket
+RoxygenNote: 6.1.1

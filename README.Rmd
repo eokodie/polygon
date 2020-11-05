@@ -1,21 +1,34 @@
+---
+output: 
+  github_document:
+    html_preview: false
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<div data-align="center">
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
+<div align="center">
 <!-- hex -->
-
 <!-- <img src="./man/figures/logo.png" height = "200px" /> -->
 
 <!-- badges: start -->
-
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
 <!-- badges: end -->
 
 <!-- links start -->
-
 <!-- links end -->
 
 </div>
 
 # polygon
+
+
+
