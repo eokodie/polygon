@@ -15,10 +15,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.org/eokodie/polygon.svg?branch=master)](https://travis-ci.org/eokodie/polygon)
-[![Codecov test
-coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=master)
+<!-- [![Travis build status](https://travis-ci.org/eokodie/polygon.svg?branch=master)](https://travis-ci.org/eokodie/polygon) [![Codecov test coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=master) -->
 <!-- badges: end -->
 
 <!-- links start -->
@@ -34,9 +31,9 @@ and some features are incomplete.
 
 ## Installation
 
-**dbmanager** is not yet on CRAN. You can install from GitHub with:
+**polygon** is not yet on CRAN. You can install from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("eokodie/dbmanager")
+remotes::install_github("eokodie/polygon")
 ```
