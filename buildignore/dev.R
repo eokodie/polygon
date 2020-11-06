@@ -19,4 +19,7 @@ get_historic_quotes(
   date = "2020-11-02"
 )
 
+source("~/.Rprofile")
+travis_token = Sys.getenv("travis_token")
+covr::codecov(token = travis_token)
 
