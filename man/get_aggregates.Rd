@@ -7,14 +7,18 @@
 get_aggregates(token, ticker, multiplier, timespan, from, to)
 }
 \arguments{
-\item{token}{A character string of an appropriate Ticker symbol of the request.}
+\item{token}{A valid token for polygonio (character string).}
 
-\item{ticker}{An integer for the size of the timespan multiplier.}
+\item{ticker}{A character string of an appropriate Ticker symbol of the request.}
 
-\item{multiplier}{A character string  of the size of the time window.
+\item{multiplier}{A number for the size of the timespan multiplier.}
+
+\item{timespan}{A character string  of the size of the time window.
 Options include: 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'.}
 
-\item{to}{}
+\item{from}{(string) From date.}
+
+\item{to}{(string) To date.}
 }
 \value{
 A dataframe.
