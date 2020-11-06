@@ -9,22 +9,25 @@ get_aggregates(token, ticker, multiplier, timespan, from, to)
 \arguments{
 \item{token}{A valid token for polygonio (character string).}
 
-\item{ticker}{A character string of an appropriate Ticker symbol of the request.}
+\item{ticker}{A character string of an appropriate Ticker
+symbol of the request.}
 
 \item{multiplier}{A number for the size of the timespan multiplier.}
 
 \item{timespan}{A character string  of the size of the time window.
-Options include: 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'.}
+Options include: 'minute', 'hour', 'day', 'week', 'month',
+'quarter', 'year'.}
 
 \item{from}{(string) From date.}
 
 \item{to}{(string) To date.}
 }
 \value{
-A dataframe.
+A tibble of financial data.
 }
 \description{
-Get aggregates for a date range, in custom time window sizes.
+Get stocks aggregates for a date range, in custom
+time window sizes for a given
 }
 \examples{
 \dontrun{

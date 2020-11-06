@@ -37,10 +37,13 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
   # checks
   if(!is.character(token)) stop("token must be a character")
   if(!is.character(ticker)) stop("ticker must be a character")
-  if(!is.numeric(multiplier)) stop("multiplier must be a numeric")
   if(!is.character(timespan)) stop("timespan must be a character")
   if(!is.character(from)) stop("from must be a character")
   if(!is.character(to)) stop("to must be a character")
+
+  if(!isTRUE(multiplier == as.integer(multiplier))) {
+    stop("multiplier must be an integer")
+  }
 
 
   # construct endpoint
@@ -59,7 +62,7 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
   response <- httr::GET(url)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(content$status != "OK") stop(content$message)
+  if(content$status != "OK") stop(content$error)
 
   tibble::tibble(content$results)
 }
