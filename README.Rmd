@@ -39,7 +39,7 @@ This package is under active development. The API is likely to change and some f
 
 ## Installation
 
-**dbmanager** is not yet on CRAN. You can install from GitHub with:
+**polygon** is not yet on CRAN. You can install from GitHub with:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("eokodie/polygon")
