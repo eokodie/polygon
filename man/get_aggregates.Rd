@@ -7,27 +7,30 @@
 get_aggregates(token, ticker, multiplier, timespan, from, to)
 }
 \arguments{
-\item{token}{A valid token for polygonio (character string).}
+\item{token}{(string) A valid token for polygonio.}
 
-\item{ticker}{A character string of an appropriate Ticker
-symbol of the request.}
+\item{ticker}{(string) Ticker symbol of the request.
+Some tickers require a prefix, see examples below:
+Stocks: 'AAPL'
+Currencies: 'C:EURUSD'
+Crypto: 'X:BTCUSD'}
 
-\item{multiplier}{A number for the size of the timespan multiplier.}
+\item{multiplier}{(integer) Size of the timespan multiplier.}
 
-\item{timespan}{A character string  of the size of the time window.
+\item{timespan}{(string) Size of the time window.
 Options include: 'minute', 'hour', 'day', 'week', 'month',
 'quarter', 'year'.}
 
-\item{from}{(string) From date.}
+\item{from}{(string) From date ('YYYY-MM-DD').}
 
-\item{to}{(string) To date.}
+\item{to}{(string) To date ('YYYY-MM-DD').}
 }
 \value{
 A tibble of financial data.
 }
 \description{
-Get stocks aggregates for a date range, in custom
-time window sizes for a given
+Get aggregates for a date range, in custom
+time window sizes for a ticker.
 }
 \examples{
 \dontrun{
