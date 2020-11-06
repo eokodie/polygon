@@ -21,7 +21,6 @@ Get historic NBBO quotes for a ticker.
 }
 \examples{
 \dontrun{
-
 libraray(polygon)
 
 get_historic_quotes(
@@ -30,5 +29,4 @@ ticker = "AAPL",
 date = "2019-01-01"
 )
 }
-
 }

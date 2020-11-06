@@ -34,9 +34,7 @@ time window sizes for a ticker.
 }
 \examples{
 \dontrun{
-
 libraray(polygon)
-
 get_aggregates(
 token = "YOUR_POLYGON_TOKEN",
 ticker = "AAPL",
@@ -46,5 +44,4 @@ from = "2019-01-01",
 to = "2019-02-01"
 )
 }
-
 }
