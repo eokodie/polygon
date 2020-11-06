@@ -17,5 +17,6 @@ Imports:
     jsonlite,
     tibble,
     glue,
+    magrittr,
     websocket
 RoxygenNote: 6.1.1
