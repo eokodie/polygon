@@ -9,24 +9,18 @@
 #' Stocks: 'AAPL'
 #' Currencies: 'C:EURUSD'
 #' Crypto: 'X:BTCUSD'
-#'
 #' @param multiplier (integer) Size of the timespan multiplier.
-#'
 #' @param timespan (string) Size of the time window.
 #' Options include: 'minute', 'hour', 'day', 'week', 'month',
 #' 'quarter', 'year'.
-#'
 #' @param from (string) From date ('YYYY-MM-DD').
 #' @param to (string) To date ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
-#'
 #' @examples
 #' \dontrun{
-#'
 #' libraray(polygon)
-#'
 #' get_aggregates(
 #' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
@@ -36,7 +30,6 @@
 #' to = "2019-02-01"
 #' )
 #' }
-#'
 get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
 
   # checks
@@ -71,7 +64,6 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   if(content$status == "ERROR") stop(content$error)
-
   tibble::tibble(content$results)
 }
 
@@ -89,7 +81,6 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
 #'
 #' @examples
 #' \dontrun{
-#'
 #' libraray(polygon)
 #'
 #' get_historic_quotes(
@@ -98,7 +89,6 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
 #' date = "2019-01-01"
 #' )
 #' }
-#'
 get_historic_quotes <- function(token, ticker, date) {
 
   # checks
