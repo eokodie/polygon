@@ -39,8 +39,7 @@ This package is under active development. The API is likely to change and some f
 
 ## Installation
 
-You can install **dbmanager** from GitHub with:
-
+**dbmanager** is not yet on CRAN. Your can install from GitHub with:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("eokodie/dbmanager")
