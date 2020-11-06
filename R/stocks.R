@@ -1,12 +1,15 @@
 #' get_aggregates
 #'
-#' @description Get aggregates for a date range, in custom time window sizes.
+#' @description Get stocks aggregates for a date range, in custom
+#' time window sizes for a given
 #' @param token A valid token for polygonio (character string).
-#' @param ticker A character string of an appropriate Ticker symbol of the request.
+#' @param ticker A character string of an appropriate Ticker
+#' symbol of the request.
 #' @param multiplier A number for the size of the timespan multiplier.
 #'
 #' @param timespan A character string  of the size of the time window.
-#' Options include: 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'.
+#' Options include: 'minute', 'hour', 'day', 'week', 'month',
+#' 'quarter', 'year'.
 #'
 #' @param from (string) From date.
 #' @param to (string) To date.
