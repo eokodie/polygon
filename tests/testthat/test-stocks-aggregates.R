@@ -11,8 +11,12 @@ test_that("stocks aggregates work", {
 
   expect_error(check_errors(ticker = 2), "character")
   expect_error(check_errors(multiplier = 1.5), "integer")
-  expect_error(check_errors(timespan = 6), "character")
+  expect_error(check_errors(token = 6), "character")
   expect_error(check_errors(timespan = 5), "character")
-  expect_error(check_errors(timespan = 1), "character")
+  expect_error(check_errors(from = 1), "character")
+  expect_error(check_errors(to = 100), "character")
   expect_error(check_errors(), "Unknown API")
+  expect_error(check_errors(timespan = "nanoseconds"), "valid")
 })
+
+
