@@ -4,7 +4,8 @@
 \alias{get_aggregates}
 \title{get_aggregates}
 \usage{
-get_aggregates(token, ticker, multiplier, timespan, from, to)
+get_aggregates(token, ticker, multiplier, timespan, from, to,
+  unadjusted = TRUE, sort = "asc")
 }
 \arguments{
 \item{token}{(string) A valid token for polygonio.}
@@ -24,6 +25,11 @@ Options include: 'minute', 'hour', 'day', 'week', 'month',
 \item{from}{(string) From date ('YYYY-MM-DD').}
 
 \item{to}{(string) To date ('YYYY-MM-DD').}
+
+\item{unadjusted}{(boolean) Set to TRUE if the results
+should NOT be adjusted for splits.}
+
+\item{sort}{(string) sort by timestamp. Options include: "asc" and "desc".}
 }
 \value{
 A tibble of financial data.

@@ -1,6 +1,6 @@
 #' get_aggregates
 #'
-#' @description Get aggregates for a date range, in custom
+#' @description Get OHLC aggregates for a date range, in custom
 #' time window sizes for a ticker.
 #'
 #' @param token (string) A valid token for polygonio.
@@ -15,6 +15,9 @@
 #' 'quarter', 'year'.
 #' @param from (string) From date ('YYYY-MM-DD').
 #' @param to (string) To date ('YYYY-MM-DD').
+#' @param unadjusted (logical) Set to TRUE if the results
+#' should NOT be adjusted for splits.
+#' @param sort (string) sort by timestamp. Options include: "asc" and "desc".
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -30,18 +33,22 @@
 #' to = "2019-02-01"
 #' )
 #' }
-get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
-
+get_aggregates <- function(token,
+                           ticker,
+                           multiplier,
+                           timespan,
+                           from,
+                           to,
+                           unadjusted = TRUE,
+                           sort = "asc") {
   # checks
   if(!is.character(token)) stop("token must be a character")
   if(!is.character(ticker)) stop("ticker must be a character")
   if(!is.character(timespan)) stop("timespan must be a character")
   if(!is.character(from)) stop("from must be a character")
   if(!is.character(to)) stop("to must be a character")
-
-  if(!isTRUE(multiplier == as.integer(multiplier))) {
-    stop("multiplier must be an integer")
-  }
+  if(!is.numeric(multiplier)) stop("multiplier must be an integer")
+  if(multiplier %% 1 != 0) stop("multiplier must be an integer")
 
   span <- c('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year')
   msg <- glue::glue_collapse(span, sep = ", ", last = " and ")
@@ -64,7 +71,18 @@ get_aggregates <- function(token, ticker, multiplier, timespan, from, to) {
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   if(content$status == "ERROR") stop(content$error)
-  tibble::tibble(content$results)
+
+  # clean response
+  new_col_names <- c(
+    "volume", "weighted_volume", "open",
+    "close", "high", "low", "time"
+  )
+  out <- tibble::tibble(content$results) %>%
+    dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
+    magrittr::set_colnames(new_col_names) %>%
+    dplyr::mutate(ticker = ticker) %>%
+    dplyr::select(ticker, dplyr::everything())
+  out
 }
 
 

@@ -15,7 +15,11 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-<!-- [![Travis build status](https://travis-ci.org/eokodie/polygon.svg?branch=master)](https://travis-ci.org/eokodie/polygon) [![Codecov test coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=master) -->
+[![Travis build
+status](https://travis-ci.org/eokodie/polygon.svg?branch=main)](https://travis-ci.org/eokodie/polygon)
+
+<!-- [![Codecov test coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=main) -->
+
 <!-- badges: end -->
 
 <!-- links start -->
@@ -35,5 +39,5 @@ and some features are incomplete.
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("eokodie/polygon")
+remotes::install_github("eokodie/polygon", ref = "main")
 ```
