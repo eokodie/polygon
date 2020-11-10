@@ -15,9 +15,6 @@
 #' 'quarter', 'year'.
 #' @param from (string) From date ('YYYY-MM-DD').
 #' @param to (string) To date ('YYYY-MM-DD').
-#' @param unadjusted (logical) Set to TRUE if the results
-#' should NOT be adjusted for splits.
-#' @param sort (string) sort by timestamp. Options include: "asc" and "desc".
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -33,34 +30,30 @@
 #' to = "2019-02-01"
 #' )
 #' }
-get_aggregates <- function(token,
-                           ticker,
-                           multiplier,
-                           timespan,
-                           from,
-                           to,
-                           unadjusted = TRUE,
-                           sort = "asc") {
+get_aggregates <- function(
+  token,
+  ticker,
+  multiplier,
+  timespan = c('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'),
+  from,
+  to
+) {
   # checks
+  timespan <- rlang::arg_match(timespan)
   if(!is.character(token)) stop("token must be a character")
   if(!is.character(ticker)) stop("ticker must be a character")
   if(!is.character(timespan)) stop("timespan must be a character")
   if(!is.character(from)) stop("from must be a character")
   if(!is.character(to)) stop("to must be a character")
-  if(!is.numeric(multiplier)) stop("multiplier must be an integer")
-  if(multiplier %% 1 != 0) stop("multiplier must be an integer")
-
-  span <- c('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year')
-  msg <- glue::glue_collapse(span, sep = ", ", last = " and ")
-  if(!timespan %in% span) stop(glue::glue("valid timespans include: {msg}"))
+  if(!rlang::is_integerish(multiplier)) stop("multiplier must be an integer")
 
   # construct endpoint
-  url <- "https://api.polygon.io"
-  url <- glue::glue(
-    "{url}/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
   )
   url <- httr::modify_url(
-    url,
+    base_url,
     query = list(
       apiKey = token
     )
@@ -70,7 +63,7 @@ get_aggregates <- function(token,
   response <- httr::GET(url)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(content$status == "ERROR") stop(content$error)
+  if(isTRUE(content$status == "ERROR")) stop(content$error)
 
   # clean response
   new_col_names <- c(
@@ -79,9 +72,7 @@ get_aggregates <- function(token,
   )
   out <- tibble::tibble(content$results) %>%
     dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
-    magrittr::set_colnames(new_col_names) %>%
-    dplyr::mutate(ticker = ticker) %>%
-    dplyr::select(ticker, dplyr::everything())
+    magrittr::set_colnames(new_col_names)
   out
 }
 
@@ -108,28 +99,50 @@ get_aggregates <- function(token,
 #' )
 #' }
 get_historic_quotes <- function(token, ticker, date) {
-
   # checks
   if(!is.character(token)) stop("token must be a character")
   if(!is.character(ticker)) stop("ticker must be a character")
   if(!is.character(date)) stop("date must be a character")
 
   # construct endpoint
-  url <- "https://api.polygon.io"
-  url <- glue::glue(
-    "{url}/v2/ticks/stocks/nbbo/{ticker}/{date}"
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v2/ticks/stocks/nbbo/{ticker}/{date}"
   )
   url <- httr::modify_url(
-    url,
+    base_url,
     query = list(
       apiKey = token
     )
   )
-
   # get response
   response <- httr::GET(url)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(content$status == "ERROR") stop(content$error)
-  tibble::tibble(content$results)
+  if(isTRUE(content$status == "ERROR")) stop(content$error)
+  out <- tibble::tibble(content$results)
+
+  # user-friendly lookup table
+  lookup_tbl <- tibble::tribble(
+    ~old_names,                  ~new_names,
+           "T",                    "ticker",
+           "t",             "sip_timestamp",
+           "y",        "exchange_timestamp",
+           "f",        "trf_unix_timestamp",
+           "q",           "sequence_number",
+           "c",                "conditions",
+           "i",                "indicators",
+           "p",                 "bid_price",
+           "x",           "bid_exchange_id",
+           "s",                  "bid_size",
+           "P",                 "ask_price",
+           "X",           "ask_exchange_id",
+           "S",                  "ask_size",
+           "z", "tape_where_trade_occurred"
+    ) %>%
+    dplyr::filter(old_names %in% old_cols)
+
+  # Rename response cols using the lookup table
+  names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
+  out
 }

@@ -36,7 +36,7 @@ polygon::get_aggregates(
 get_historic_quotes(
   token,
   ticker = "AAPL",
-  date = "2020-11-02"
+  date = "2020-11-09"
 )
 
 source("~/.Rprofile")
