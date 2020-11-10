@@ -64,13 +64,16 @@ get_aggregates <- function(
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   if(isTRUE(content$status == "ERROR")) stop(content$error)
+  if(rlang::is_empty(content$results)) {
+    stop("reponse empty. Have you entered a valid ticker?")
+  }
 
   # clean response
   new_col_names <- c(
-    "volume", "weighted_volume", "open",
-    "close", "high", "low", "time"
+    "volume", "open", "close", "high", "low", "time", "items_in_agg_window"
   )
   out <- tibble::tibble(content$results) %>%
+    dplyr::select(v, o, c, h, l, t, n) %>%
     dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
     magrittr::set_colnames(new_col_names)
   out
@@ -140,7 +143,7 @@ get_historic_quotes <- function(token, ticker, date) {
            "S",                  "ask_size",
            "z", "tape_where_trade_occurred"
     ) %>%
-    dplyr::filter(old_names %in% old_cols)
+    dplyr::filter(old_names %in% names(out))
 
   # Rename response cols using the lookup table
   names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
