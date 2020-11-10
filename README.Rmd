@@ -80,11 +80,4 @@ Which looks like this:
 # remotes::install_github("eokodie/fivethemes", ref = "main")
 fivethemes:::plot_candlestick(df, title = "Apple Inc")
 ```
-<!-- ![](man/figures/candles.png) -->
-
-```{r fig.width=1, fig.height=10,echo=FALSE}
-library(png)
-library(grid)
-img <- readPNG('man/figures/candles.png')
- grid.raster(img)
-```
+![](man/figures/candles.png)

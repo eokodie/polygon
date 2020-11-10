@@ -79,6 +79,4 @@ Which looks like this:
 fivethemes:::plot_candlestick(df, title = "Apple Inc")
 ```
 
-<!-- ![](man/figures/candles.png) -->
-
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+![](man/figures/candles.png)
