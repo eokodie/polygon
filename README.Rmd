@@ -78,6 +78,9 @@ df <- polygon::get_aggregates(
 Which looks like this:
 ```{r, eval=FALSE}
 # remotes::install_github("eokodie/fivethemes", ref = "main")
-fivethemes:::plot_candlestick(df, title = "Apple Inc")
+fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 ```
-![](man/figures/candles.png)
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("man/figures/candlestick.png")
+```

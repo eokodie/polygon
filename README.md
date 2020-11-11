@@ -76,7 +76,7 @@ Which looks like this:
 
 ``` r
 # remotes::install_github("eokodie/fivethemes", ref = "main")
-fivethemes:::plot_candlestick(df, title = "Apple Inc")
+fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 ```
 
-![](man/figures/candles.png)
+<img src="man/figures/candlestick.png" width="100%" />

@@ -33,14 +33,16 @@ covr::codecov(token = travis_token)
 df <- polygon::get_aggregates(
   token,
   ticker = "AAPL",
-  multiplier = 15,
+  multiplier = 5,
   timespan = "minute",
-  from = "2020-11-03",
-  to = "2020-11-03"
+  from = "2020-10-06",
+  to = "2020-10-06"
 ) %>%
-  head(20)
+  tail(20)
 
 df
-fivethemes:::plot_candlestick(df, title = "Apple Inc")
+candle_plot <- plot_candlestick(df, title = "Apple Inc.")
+candle_plot
+ggplot2::ggsave("man/figures/candlestick.png", candle_plot, width = 10, height = 6)
 
 
