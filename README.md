@@ -28,7 +28,7 @@ status](https://travis-ci.org/eokodie/polygon.svg?branch=main)](https://travis-c
 
 </div>
 
-> A Websocket & RESTful API client for [Polygon](https://polygon.io).
+> A WebSocket & RESTful API client for [Polygon](https://polygon.io).
 
 This package is under active development. The API is likely to change
 and some features are incomplete.
@@ -41,3 +41,42 @@ and some features are incomplete.
 # install.packages("remotes")
 remotes::install_github("eokodie/polygon", ref = "main")
 ```
+
+## Exampes
+
+We can download quotes data from the REST API with:
+
+``` r
+df <- polygon::get_aggregates(
+  token,
+  ticker = "AAPL",
+  multiplier = 15,
+  timespan = "minute",
+  from = "2020-11-03",
+  to = "2020-11-03"
+) %>%
+  head(20)
+
+# # A tibble: 20 x 6
+#    volume  open close  high   low time               
+#     <dbl> <dbl> <dbl> <dbl> <dbl> <dttm>             
+#  1  18873  113.  113.  113.  113. 2020-10-06 22:20:00
+#  2  19200  113.  113.  113.  113. 2020-10-06 22:25:00
+#  3  48628  113.  113.  113.  113. 2020-10-06 22:30:00
+#  4  18053  113.  113.  113.  113. 2020-10-06 22:35:00
+#  5  26782  113.  113.  113.  113. 2020-10-06 22:40:00
+#  6  35494  113.  113.  113.  113. 2020-10-06 22:45:00
+#  7  53465  113.  113.  113.  113. 2020-10-06 22:50:00
+#  8  22497  113.  113.  113.  113. 2020-10-06 22:55:00
+#  9  27947  113.  113.  113.  113. 2020-10-06 23:00:00
+# 10  14125  113.  113.  113.  113. 2020-10-06 23:05:00
+```
+
+Which looks like this:
+
+``` r
+# remotes::install_github("eokodie/fivethemes", ref = "main")
+fivethemes:::plot_candlestick(df, title = "Apple Inc.")
+```
+
+<img src="man/figures/candlestick.png" width="100%" />
