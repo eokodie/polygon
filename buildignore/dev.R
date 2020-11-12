@@ -1,3 +1,12 @@
+
+# code cov ----------------------------------------------------------------
+
+source("~/.Rprofile")
+travis_token = Sys.getenv("travis_token")
+covr::codecov(token = travis_token)
+
+
+# -----------------------
 library(magrittr)
 source("~/.Rprofile")
 
@@ -25,9 +34,7 @@ get_historic_quotes(
   date = "2020-11-09"
 )
 
-source("~/.Rprofile")
-travis_token = Sys.getenv("travis_token")
-covr::codecov(token = travis_token)
+
 
 # examples ----------------------------------------------------------------
 df <- polygon::get_aggregates(
@@ -53,3 +60,9 @@ source("~/.Rprofile")
 
 token <- Sys.getenv("polygon_token")
 get_exchanges(token)
+
+
+get_previous_close(
+token = token,
+ticker = "AAPL"
+)

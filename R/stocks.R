@@ -123,28 +123,89 @@ get_historic_quotes <- function(token, ticker, date) {
   content <- jsonlite::fromJSON(content)
   if(isTRUE(content$status == "ERROR")) stop(content$error)
   out <- tibble::tibble(content$results)
+  create_friendly_names(out)
+}
 
-  # user-friendly lookup table
-  lookup_tbl <- tibble::tribble(
-    ~old_names,                  ~new_names,
-           "T",                    "ticker",
-           "t",             "sip_timestamp",
-           "y",        "exchange_timestamp",
-           "f",        "trf_unix_timestamp",
-           "q",           "sequence_number",
-           "c",                "conditions",
-           "i",                "indicators",
-           "p",                 "bid_price",
-           "x",           "bid_exchange_id",
-           "s",                  "bid_size",
-           "P",                 "ask_price",
-           "X",           "ask_exchange_id",
-           "S",                  "ask_size",
-           "z", "tape_where_trade_occurred"
-    ) %>%
-    dplyr::filter(old_names %in% names(out))
 
-  # Rename response cols using the lookup table
-  names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
-  out
+#' get_exchanges
+#'
+#' @description Get list of stock exchanges which are supported by Polygon.io
+#' @param token (string) A valid token for polygonio.
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#' get_exchanges(token)
+#' }
+get_exchanges <- function(token) {
+  if(!is.character(token)) stop("token must be a character")
+  url <- httr::modify_url(
+    url   = "https://api.polygon.io/v1/meta/exchanges",
+    query = list(
+      apiKey = token
+    )
+  )
+
+  response <- httr::GET(url)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  if(isTRUE(content$status == "ERROR")) stop(content$error)
+  tibble::tibble(content$results)
+}
+
+
+#' get_previous_close
+#'
+#' @description Get the previous day close for the specified ticker
+#'
+#' @param token A valid token for polygonio (character string).
+#' @param ticker A character string of an appropriate Ticker.
+#' @return A tibble of financial data.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#'
+#' get_previous_close(
+#' token = "YOUR_POLYGON_TOKEN",
+#' ticker = "AAPL"
+#' )
+#' }
+get_previous_close <- function(token, ticker) {
+  # checks
+  if(!is.character(token)) stop("token must be a character")
+  if(!is.character(ticker)) stop("ticker must be a character")
+
+  # construct endpoint
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v2/aggs/ticker/{ticker}/prev"
+  )
+  url <- httr::modify_url(
+    base_url,
+    query = list(
+      apiKey = token
+    )
+  )
+  # get response
+  response <- httr::GET(url)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  if(isTRUE(content$status == "ERROR")) stop(content$error)
+  if(rlang::is_empty(content$results)) stop("Unknown API Key")
+  out <- tibble::tibble(content$results)
+
+  # clean response
+  old_names <- c("T", "v", "o", "c", "h", "l", "t")
+  new_names <- c("ticker", "volume", "open", "close", "high", "low", "time")
+  out <- tibble::tibble(content$results) %>%
+    dplyr::select(dplyr::one_of(old_names)) %>%
+    dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
+    magrittr::set_colnames(new_names)
+  # # Rename response cols using the lookup table
+  # names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
+  # out
 }
