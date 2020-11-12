@@ -46,3 +46,4 @@ candle_plot
 ggplot2::ggsave("man/figures/candlestick.png", candle_plot, width = 10, height = 6)
 
 
+get_locales("test")

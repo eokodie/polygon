@@ -2,4 +2,5 @@
 
 export(get_aggregates)
 export(get_historic_quotes)
+export(get_locales)
 importFrom(magrittr,"%>%")
