@@ -47,3 +47,9 @@ ggplot2::ggsave("man/figures/candlestick.png", candle_plot, width = 10, height =
 
 
 get_locales("test")
+
+library(magrittr)
+source("~/.Rprofile")
+
+token <- Sys.getenv("polygon_token")
+get_exchanges(token)

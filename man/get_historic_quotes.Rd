@@ -21,7 +21,7 @@ Get historic NBBO quotes for a ticker.
 }
 \examples{
 \dontrun{
-libraray(polygon)
+library(polygon)
 
 get_historic_quotes(
 token = "YOUR_POLYGON_TOKEN",
