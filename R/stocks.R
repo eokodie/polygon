@@ -20,7 +20,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' libraray(polygon)
+#' library(polygon)
 #' get_aggregates(
 #' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
@@ -92,7 +92,7 @@ get_aggregates <- function(
 #'
 #' @examples
 #' \dontrun{
-#' libraray(polygon)
+#' library(polygon)
 #'
 #' get_historic_quotes(
 #' token = "YOUR_POLYGON_TOKEN",
