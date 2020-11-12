@@ -69,10 +69,12 @@ get_aggregates <- function(
   }
 
   # clean response
+  old_names <- c("v", "o", "c", "h", "l", "t")
+  new_names <- c("volume", "open", "close", "high", "low", "time")
   out <- tibble::tibble(content$results) %>%
-    dplyr::select(v, o, c, h, l, t) %>%
+    dplyr::select(dplyr::one_of(old_names)) %>%
     dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
-    magrittr::set_colnames(c("volume", "open", "close", "high", "low", "time"))
+    magrittr::set_colnames(new_names)
   out
 }
 
