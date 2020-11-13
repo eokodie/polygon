@@ -18,6 +18,7 @@ Get list of crypto currency exchanges which are supported by Polygon.io
 \examples{
 \dontrun{
 library(polygon)
+token = "YOUR_POLYGON_TOKEN",
 get_exchanges_cypto(token)
 }
 }

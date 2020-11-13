@@ -18,6 +18,7 @@ Get the list of currently supported locales
 \examples{
 \dontrun{
 library(polygon)
+token = "YOUR_POLYGON_TOKEN",
 get_locales(token)
 }
 }
