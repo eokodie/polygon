@@ -137,6 +137,7 @@ get_historic_quotes <- function(token, ticker, date) {
 #' @examples
 #' \dontrun{
 #' library(polygon)
+#' token = "YOUR_POLYGON_TOKEN",
 #' get_exchanges(token)
 #' }
 get_exchanges <- function(token) {
@@ -152,7 +153,7 @@ get_exchanges <- function(token) {
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   if(isTRUE(content$status == "ERROR")) stop(content$error)
-  tibble::tibble(content$results)
+  tibble::tibble(content)
 }
 
 
@@ -205,7 +206,5 @@ get_previous_close <- function(token, ticker) {
     dplyr::select(dplyr::one_of(old_names)) %>%
     dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
     magrittr::set_colnames(new_names)
-  # # Rename response cols using the lookup table
-  # names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
-  # out
+  out
 }
