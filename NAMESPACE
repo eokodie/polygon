@@ -2,6 +2,7 @@
 
 export(get_aggregates)
 export(get_exchanges)
+export(get_exchanges_cypto)
 export(get_historic_quotes)
 export(get_locales)
 export(get_previous_close)

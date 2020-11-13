@@ -53,7 +53,7 @@ candle_plot
 ggplot2::ggsave("man/figures/candlestick.png", candle_plot, width = 10, height = 6)
 
 
-get_locales("test")
+get_locales(token)
 
 library(magrittr)
 source("~/.Rprofile")
@@ -62,7 +62,9 @@ token <- Sys.getenv("polygon_token")
 get_exchanges(token)
 
 
-get_previous_close(
-token = token,
-ticker = "AAPL"
-)
+# get_previous_close(
+# token = token,
+# ticker = "AAPL"
+# )
+
+get_exchanges_cypto(token)
