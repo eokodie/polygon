@@ -45,3 +45,9 @@ test_that("get_previous_close works", {
   expect_error(get_previous_close(token = "test", ticker = "AAPL"), "Unknown API")
   expect_error(get_previous_close(token = 2, ticker = 100), "character")
 })
+
+test_that("get_snapshot_all_tickers_stocks works", {
+  expect_error(get_snapshot_all_tickers_stocks(token = 6, ticker = "AAPL"),  "character")
+  expect_error(get_snapshot_all_tickers_stocks(token = "test", ticker = "AAPL"), "Unknown API")
+  expect_error(get_snapshot_all_tickers_stocks(token = 2, ticker = 100), "character")
+})
