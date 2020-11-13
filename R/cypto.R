@@ -67,6 +67,10 @@ get_snapshot_all_tickers_cypto <- function(token) {
   response <- httr::GET(url)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
+  switch(
+    content$status,
+    "ERROR"          = stop(content$error),
+    "NOT_AUTHORIZED" = stop(content$message)
+  )
   tibble::tibble(content$tickers)
 }

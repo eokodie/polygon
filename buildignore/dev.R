@@ -59,15 +59,9 @@ library(magrittr)
 source("~/.Rprofile")
 
 token <- Sys.getenv("polygon_token")
-get_exchanges(token)
+# get_exchanges(token)
+# get_exchanges_cypto(token)
 
-
-# get_previous_close(
-# token = token,
-# ticker = "AAPL"
-# )
-
-get_exchanges_cypto(token)
-
-get_snapshot_all_tickers_stocks(token, ticker = "AAPL")
-get_snapshot_all_tickers_cypto(token, ticker = "X:BTCUSD")
+get_snapshot_all_tickers_stocks(token)
+get_snapshot_all_tickers_cypto(token)
+get_snapshot_all_tickers_forex(token)
