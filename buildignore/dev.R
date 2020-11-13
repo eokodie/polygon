@@ -68,3 +68,6 @@ get_exchanges(token)
 # )
 
 get_exchanges_cypto(token)
+
+get_snapshot_all_tickers_stocks(token, ticker = "AAPL")
+get_snapshot_all_tickers_cypto(token, ticker = "X:BTCUSD")
