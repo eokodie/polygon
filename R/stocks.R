@@ -225,9 +225,7 @@ get_previous_close <- function(token, ticker) {
 #' )
 #' }
 get_snapshot_all_tickers_stocks <- function(token) {
-  # checks
   if(!is.character(token)) stop("token must be a character")
-
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",

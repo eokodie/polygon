@@ -49,9 +49,7 @@ get_exchanges_cypto <- function(token) {
 #' )
 #' }
 get_snapshot_all_tickers_cypto <- function(token) {
-  # checks
   if(!is.character(token)) stop("token must be a character")
-
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",

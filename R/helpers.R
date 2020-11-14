@@ -1,6 +1,5 @@
 #' check_http_status
-#'
-#' @description Check the http response messages.
+#' @description Check http response messages.
 #' @param data A request object.
 #' @keywords internal
 check_http_status <- function(response) {
@@ -17,12 +16,9 @@ check_http_status <- function(response) {
 }
 
 #' create_friendly_names
-#'
 #' @param data A tibble.
-#'
 #' @return A tibble.
 #' @keywords internal
-#'
 create_friendly_names <- function(data) {
   out <- data
   # user-friendly lookup table
