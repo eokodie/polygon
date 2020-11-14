@@ -10,6 +10,6 @@ check_http_status(response)
 \item{data}{A request object.}
 }
 \description{
-Check the http response messages.
+Check http response messages.
 }
 \keyword{internal}
