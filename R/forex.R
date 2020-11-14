@@ -35,12 +35,8 @@ get_snapshot_all_tickers_forex <- function(token) {
   )
   # get response
   response <- httr::GET(url)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  switch(
-    content$status,
-    "ERROR"          = stop(content$error),
-    "NOT_AUTHORIZED" = stop(content$message)
-  )
   tibble::tibble(content$tickers)
 }
