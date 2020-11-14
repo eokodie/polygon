@@ -65,3 +65,12 @@ token <- Sys.getenv("polygon_token")
 get_snapshot_all_tickers_stocks(token)
 get_snapshot_all_tickers_cypto(token)
 get_snapshot_all_tickers_forex(token)
+
+### get daily bars
+check_http_status =polygon:::check_http_status
+get_grouped_daily_bars(
+  token,
+  locale="US",
+  market="CRYPTO",
+  date = "2020-11-06"
+)
