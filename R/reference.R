@@ -21,9 +21,9 @@ get_locales <- function(token) {
   )
 
   response <- httr::GET(url)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
   tibble::tibble(content$results)
 }
 

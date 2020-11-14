@@ -1,3 +1,80 @@
+#' get_historic_quotes
+#'
+#' @description Get historic NBBO quotes for a ticker.
+#'
+#' @param token A valid token for polygonio (character string).
+#' @param ticker A character string of an appropriate Ticker.
+#' @param date  (string) Date of the historic ticks to retrieve ('YYYY-MM-DD').
+#'
+#' @return A tibble of financial data.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#'
+#' get_historic_quotes(
+#' token = "YOUR_POLYGON_TOKEN",
+#' ticker = "AAPL",
+#' date = "2019-01-01"
+#' )
+#' }
+get_historic_quotes <- function(token, ticker, date) {
+  # checks
+  if(!is.character(token)) stop("token must be a character")
+  if(!is.character(ticker)) stop("ticker must be a character")
+  if(!is.character(date)) stop("date must be a character")
+
+  # construct endpoint
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v2/ticks/stocks/nbbo/{ticker}/{date}"
+  )
+  url <- httr::modify_url(
+    base_url,
+    query = list(
+      apiKey = token
+    )
+  )
+  # get response
+  response <- httr::GET(url)
+  check_http_status(response)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  out <- tibble::tibble(content$results)
+  create_friendly_names(out)
+}
+
+
+#' get_exchanges
+#'
+#' @description Get list of stock exchanges which are supported by Polygon.io
+#' @param token (string) A valid token for polygonio.
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#' token = "YOUR_POLYGON_TOKEN",
+#' get_exchanges(token)
+#' }
+get_exchanges <- function(token) {
+  if(!is.character(token)) stop("token must be a character")
+  url <- httr::modify_url(
+    url   = "https://api.polygon.io/v1/meta/exchanges",
+    query = list(
+      apiKey = token
+    )
+  )
+
+  response <- httr::GET(url)
+  check_http_status(response)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  tibble::tibble(content)
+}
+
 #' get_aggregates
 #'
 #' @description Get OHLC aggregates for a date range, in custom
@@ -61,12 +138,9 @@ get_aggregates <- function(
 
   # get response
   response <- httr::GET(url)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
-  if(rlang::is_empty(content$results)) {
-    stop("reponse empty. Have you entered a valid ticker?")
-  }
 
   # clean response
   old_names <- c("v", "o", "c", "h", "l", "t")
@@ -77,85 +151,6 @@ get_aggregates <- function(
     magrittr::set_colnames(new_names)
   out
 }
-
-
-#' get_historic_quotes
-#'
-#' @description Get historic NBBO quotes for a ticker.
-#'
-#' @param token A valid token for polygonio (character string).
-#' @param ticker A character string of an appropriate Ticker.
-#' @param date  (string) Date of the historic ticks to retrieve ('YYYY-MM-DD').
-#'
-#' @return A tibble of financial data.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' library(polygon)
-#'
-#' get_historic_quotes(
-#' token = "YOUR_POLYGON_TOKEN",
-#' ticker = "AAPL",
-#' date = "2019-01-01"
-#' )
-#' }
-get_historic_quotes <- function(token, ticker, date) {
-  # checks
-  if(!is.character(token)) stop("token must be a character")
-  if(!is.character(ticker)) stop("ticker must be a character")
-  if(!is.character(date)) stop("date must be a character")
-
-  # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/ticks/stocks/nbbo/{ticker}/{date}"
-  )
-  url <- httr::modify_url(
-    base_url,
-    query = list(
-      apiKey = token
-    )
-  )
-  # get response
-  response <- httr::GET(url)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
-  out <- tibble::tibble(content$results)
-  create_friendly_names(out)
-}
-
-
-#' get_exchanges
-#'
-#' @description Get list of stock exchanges which are supported by Polygon.io
-#' @param token (string) A valid token for polygonio.
-#' @return A tibble.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' library(polygon)
-#' token = "YOUR_POLYGON_TOKEN",
-#' get_exchanges(token)
-#' }
-get_exchanges <- function(token) {
-  if(!is.character(token)) stop("token must be a character")
-  url <- httr::modify_url(
-    url   = "https://api.polygon.io/v1/meta/exchanges",
-    query = list(
-      apiKey = token
-    )
-  )
-
-  response <- httr::GET(url)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
-  tibble::tibble(content)
-}
-
 
 #' get_previous_close
 #'
@@ -193,10 +188,9 @@ get_previous_close <- function(token, ticker) {
   )
   # get response
   response <- httr::GET(url)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
-  if(rlang::is_empty(content$results)) stop("Unknown API Key")
   out <- tibble::tibble(content$results)
 
   # clean response
@@ -247,8 +241,8 @@ get_snapshot_all_tickers_stocks <- function(token) {
   )
   # get response
   response <- httr::GET(url)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
-  if(isTRUE(content$status == "ERROR")) stop(content$error)
   tibble::tibble(content$tickers)
 }
