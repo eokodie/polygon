@@ -74,3 +74,10 @@ get_grouped_daily_bars(
   market="CRYPTO",
   date = "2020-11-06"
 )
+
+get_open_close_crypto(
+token ,
+from = "BTC",
+to = "USD",
+date = "2018-5-9"
+)

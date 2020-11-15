@@ -12,14 +12,13 @@
 #' get_locales(token)
 #' }
 get_locales <- function(token) {
-  if(!is.character(token)) stop("token must be a character")
+  stopifnot(is.character(token))
   url <- httr::modify_url(
     url   = "https://api.polygon.io/v2/reference/locales",
     query = list(
       apiKey = token
     )
   )
-
   response <- httr::GET(url)
   check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")

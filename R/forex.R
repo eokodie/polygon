@@ -19,7 +19,7 @@
 #' )
 #' }
 get_snapshot_all_tickers_forex <- function(token) {
-  if(!is.character(token)) stop("token must be a character")
+  stopifnot(is.character(token))
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",

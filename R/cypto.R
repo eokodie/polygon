@@ -1,3 +1,49 @@
+#' Daily Open/Close for Crypto
+#'
+#' @description Get the open, close prices of a symbol on a certain day.
+#'
+#' @param token (string) A valid token for polygonio.
+#' @param from (string) From Symbol of the pair.
+#' @param to (string) To Symbol of the pair.
+#' @param date (string) Date of the requested open/close.
+#'
+#' @return A tibble of financial data.
+#' @export
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#' get_open_close_crypto(
+#' token = "YOUR_POLYGON_TOKEN",
+#' from = "BTC",
+#' to = "USD",
+#' date = "2019-01-01"
+#' )
+#' }
+get_open_close_crypto <- function(token, from, to, date) {
+  stopifnot(is.character(token))
+  stopifnot(is.character(from))
+  stopifnot(is.character(to))
+  stopifnot(is.character(date))
+
+  # construct endpoint
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v1/open-close/crypto/{from}/{to}/{date}"
+  )
+  url <- httr::modify_url(
+    base_url,
+    query = list(
+      apiKey = token
+    )
+  )
+  # get response
+  response <- httr::GET(url)
+  check_http_status(response)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  content$results
+}
+
 #' get_exchanges_cypto
 #'
 #' @description Get list of crypto currency exchanges which are supported by Polygon.io
@@ -49,7 +95,7 @@ get_exchanges_cypto <- function(token) {
 #' )
 #' }
 get_snapshot_all_tickers_cypto <- function(token) {
-  if(!is.character(token)) stop("token must be a character")
+  stopifnot(is.character(token))
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",
