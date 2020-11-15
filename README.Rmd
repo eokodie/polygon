@@ -23,7 +23,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 <!-- Experimental -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![Travis build status](https://travis-ci.org/eokodie/polygon.svg?branch=main)](https://travis-ci.org/eokodie/polygon) 
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) 
+
+<!-- [![Travis build status](https://travis-ci.org/eokodie/polygon.svg?branch=main)](https://travis-ci.org/eokodie/polygon)  -->
 
 <!-- [![Codecov test coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=main) -->
 <!-- badges: end -->
@@ -50,16 +52,17 @@ remotes::install_github("eokodie/polygon", ref = "main")
 
 We can download quotes data from the REST API with:
 ```{r, eval=FALSE}
-df <- polygon::get_aggregates(
+token = Sys.getenv("polygon_token")
+data <- polygon::get_aggregates(
   token,
   ticker = "AAPL",
   multiplier = 15,
   timespan = "minute",
   from = "2020-11-03",
   to = "2020-11-03"
-) %>%
-  head(20)
-
+) 
+df <- head(data, 20)
+df
 # # A tibble: 20 x 6
 #    volume  open close  high   low time               
 #     <dbl> <dbl> <dbl> <dbl> <dbl> <dttm>             

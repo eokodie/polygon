@@ -7,9 +7,9 @@
 get_historic_quotes(token, ticker, date)
 }
 \arguments{
-\item{token}{A valid token for polygonio (character string).}
+\item{token}{(string) A valid token for polygonio.}
 
-\item{ticker}{A character string of an appropriate Ticker.}
+\item{ticker}{(string) An appropriate Ticker}
 
 \item{date}{(string) Date of the historic ticks to retrieve ('YYYY-MM-DD').}
 }

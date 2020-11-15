@@ -34,8 +34,8 @@ get_grouped_daily_bars <- function(token,
                     date){
   local <- rlang::arg_match(locale)
   market <- rlang::arg_match(market)
-  if(!is.character(date)) stop("date must be a character")
-
+  stopifnot(is.character(token))
+  stopifnot(is.character(date))
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",

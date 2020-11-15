@@ -1,12 +1,12 @@
 #' check_http_status
 #' @description Check http response messages.
-#' @param data A request object.
+#' @param data An http response object.
 #' @keywords internal
-check_http_status <- function(response) {
-  msg <- httr::http_status(response)$message
-  status <- regmatches(msg, gregexpr("(?<=\\().*?(?=\\))", msg, perl=T))[[1]]
+check_http_status <- function(data) {
+  stopifnot(inherits(data, "response"))
+  status_code <- httr::status_code(data)
   switch(
-    status,
+    as.character(status_code),
     "200" = "OK",
     "401" = stop("Unauthorized - Check our API Key and account status."),
     "404" = stop("The specified resource was not found."),
@@ -20,6 +20,7 @@ check_http_status <- function(response) {
 #' @return A tibble.
 #' @keywords internal
 create_friendly_names <- function(data) {
+  stopifnot(inherits(data, "data.frame"))
   out <- data
   # user-friendly lookup table
   lookup_tbl <- tibble::tribble(
