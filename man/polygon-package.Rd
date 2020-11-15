@@ -4,10 +4,10 @@
 \name{polygon-package}
 \alias{polygon-package}
 \alias{_PACKAGE}
-\title{polygon: R Websocket & RESTful API client for Polygon}
+\title{polygon: R Websocket & REST API client for Polygon}
 \description{
-Provides an R WebSocket and RESTful API client for Polygon.
-    Polygon is a platform for real-time and historical financial market data
+polygon provides an R WebSocket and RESTful API client for polygon.io.
+    polygon.io is a platform for real-time and historical financial market data
     including stocks APIs, forex, crypto, and more: <https://polygon.io/>.
 }
 \author{

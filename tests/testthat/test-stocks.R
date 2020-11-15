@@ -8,7 +8,7 @@ test_that("stocks aggregates work", {
                            to = "2019-02-01",
                            unadjusted = TRUE,
                            sort = "asc") {
-    polygon::get_aggregates(token, ticker, multiplier, timespan, from, to)
+    get_aggregates(token, ticker, multiplier, timespan, from, to)
   }
 
   expect_error(check_errors(ticker = 2), "character")
@@ -49,4 +49,18 @@ test_that("get_previous_close works", {
 test_that("get_snapshot_all_tickers_stocks works", {
   expect_error(get_snapshot_all_tickers_stocks(token = 6),  "character")
   expect_error(get_snapshot_all_tickers_stocks(token = "test"), "Unauthorized")
+})
+
+test_that("get_grouped_daily_bars works", {
+  check_errors <- function(token = "test",
+                           locale="US",
+                           market="STOCKS",
+                           date = "2020-11-06") {
+    get_grouped_daily_bars(token, locale, market, date)
+  }
+  expect_error(check_errors(),  "Unauthorized")
+  expect_error(check_errors(token = 6),  "character")
+  expect_error(check_errors(date = 20201102), "character")
+  expect_error(check_errors(locale = "test"), "must be one of")
+  expect_error(check_errors(market = "test"), "must be one of")
 })
