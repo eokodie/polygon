@@ -35,26 +35,53 @@ and some features are incomplete.
 
 ## Installation
 
-**polygon** is not yet on CRAN. You can install from GitHub with:
+polygon\` is not yet on CRAN. You can install from GitHub with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("eokodie/polygon", ref = "main")
 ```
 
-## Exampes
+## WebSocket
 
-We can download quotes data from the REST API with:
+The WebSocket client is implemented with R6 classes to give a simplified
+interface. For example, you can connect to Apple Inc’s real-time stock
+trades stream with the following:
+
+``` r
+ws <- polygon::WebSocket$new(cluster = "stocks", token)
+ws$subscribe("T.AAPL")
+ws$close()
+```
+
+![](man/figures//websocket.gif)
+
+The `polygon` package enables connection to 3 separate real-time
+clusters. One for each market type:
+
+| Cluster        | Websocket Implementation |
+| :------------- | :----------------------: |
+| Stocks cluster |   :heavy\_check\_mark:   |
+| Forex Cluster  |   :heavy\_check\_mark:   |
+| Crypto Cluster |   :heavy\_check\_mark:   |
+
+## REST API
+
+The REST client is implemented with a functional interface. Below are
+some examples.
+
+You can download Apple quotes data with:
 
 ``` r
 token = Sys.getenv("polygon_token")
+
 data <- polygon::get_aggregates(
-  token,
-  ticker = "AAPL",
+  token       = token,
+  ticker     = "AAPL",
   multiplier = 15,
-  timespan = "minute",
-  from = "2020-11-03",
-  to = "2020-11-03"
+  timespan   = "minute",
+  from       = "2020-11-03",
+  to         = "2020-11-03"
 ) 
 df <- head(data, 20)
 df
@@ -81,3 +108,32 @@ fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 ```
 
 <img src="man/figures/candlestick.png" width="100%" />
+
+You can get the list of currently supported locales with:
+
+``` r
+get_locales(token)
+
+# # A tibble: 19 x 2
+#    locale name                    
+#    <chr>  <chr>                   
+#  1 G      Global                  
+#  2 US     United States of America
+#  3 GB     Great Britain           
+#  4 CA     Canada                  
+#  5 NL     Netherlands             
+#  6 GR     Greece                  
+#  7 SP     Spain                   
+#  8 DE     Germany                 
+#  9 BE     Belgium                 
+# 10 DK     Denmark                 
+# 11 FI     Finland                 
+# 12 IE     Ireland                 
+# 13 PT     Portugal                
+# 14 IN     India                   
+# 15 MX     Mexico                  
+# 16 FR     France                  
+# 17 CN     China                   
+# 18 CH     Switzerland             
+# 19 SE     Sweden 
+```
