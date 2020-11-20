@@ -109,10 +109,11 @@ fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 
 <img src="man/figures/candlestick.png" width="100%" />
 
-You can get the list of currently supported locales:
+You can get the list of currently supported locales with:
 
 ``` r
 get_locales(token)
+
 # # A tibble: 19 x 2
 #    locale name                    
 #    <chr>  <chr>                   
