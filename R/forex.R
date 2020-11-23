@@ -5,7 +5,6 @@
 #' As well as previous days aggregate and calculated change for today.
 #'
 #' @param token A valid token for polygonio (character string).
-#' @param ticker A character string of an appropriate Ticker.
 #' @return A tibble of financial data.
 #' @export
 #'

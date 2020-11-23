@@ -2,5 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^buildignore$
+^.github$
 ^\.travis\.yml$
 ^codecov\.yml$
+^README\.Rmd$
