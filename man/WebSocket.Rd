@@ -3,7 +3,7 @@
 \docType{data}
 \name{WebSocket}
 \alias{WebSocket}
-\title{WebSocket}
+\title{A WebSocket template}
 \format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 WebSocket
@@ -14,7 +14,7 @@ A WebSocket template.
 \description{
 This class manages WebSocket connections to polygon.io clusters.
 }
-\section{Methods}{
+\section{Public Methods}{
 
 \describe{
   \item{\code{close}}{close WebSocket connection.}
