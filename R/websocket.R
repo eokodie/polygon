@@ -1,9 +1,7 @@
-#' WebSocket
-#'
+#' A WebSocket template
 #' @description
 #' This class manages WebSocket connections to polygon.io clusters.
-#'
-#' @section Methods:
+#' @section Public Methods:
 #' \describe{
 #'   \item{\code{close}}{close WebSocket connection.}
 #'   \item{\code{connect_to_cluster}}{connect to a polygon WebSocket cluster.}
@@ -14,8 +12,8 @@
 #' @return A WebSocket template.
 #' @export
 WebSocket <- R6::R6Class(
-  classname = "WebSocket",
-  cloneable = FALSE,
+  classname  = "WebSocket",
+  cloneable  = FALSE,
   lock_class = TRUE,
 
   public = list(
@@ -23,7 +21,6 @@ WebSocket <- R6::R6Class(
     cluster = NULL,
 
     initialize = function(cluster, token){
-
       self$cluster <- cluster
       self$ws <- self$connect_to_cluster(cluster)
 
@@ -42,19 +39,10 @@ WebSocket <- R6::R6Class(
         cat("Client failed to connect to polygon.io: ", event$message, "\n")
       })
 
-      # Allow up to 10 seconds to connect to browser.
-      p <- promises::promise(function(resolve, reject) {
-        self$ws$onOpen(resolve)
-        later::later(function() {
-          promises::promise_reject(
-            paste0("Chromote: timed out waiting for WebSocket connection to browser.")
-          )
-        }, 10)
-      })
-
-      # Authenticate
+      # Authenticate & connect
       self$ws$connect()
-      self$run_child_loop_until_resolved(p)
+      p <- promises::promise(private$promise)
+      private$run_child_loop_until_resolved(p)
       self$authenticate(token)
     },
 
@@ -92,6 +80,22 @@ WebSocket <- R6::R6Class(
       self$ws$send(msg)
     },
 
+    finalize = function() {
+      self$ws$close()
+    }
+  ),
+
+  private = list(
+    # Allow up to 10 seconds to connect to browser.
+    promise = function(resolve, reject) {
+      self$ws$onOpen(resolve)
+      later::later(function() {
+        promises::promise_reject(
+          "Chromote: timed out waiting for WebSocket connection to browser."
+        )
+      }, 10)
+    },
+
     run_child_loop_until_resolved = function(p) {
       # Chain another promise that sets a flag when p is resolved.
       p_is_resolved <- FALSE
@@ -104,10 +108,6 @@ WebSocket <- R6::R6Class(
         later::run_now()
       }
       if (!is.null(err)) stop(err)
-    },
-
-    finalize = function() {
-      self$ws$close()
     }
   )
 )
