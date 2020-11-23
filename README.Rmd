@@ -54,6 +54,7 @@ The WebSocket client is implemented with R6 classes to give a simplified interfa
 ```{r, eval=FALSE}
 ws <- polygon::WebSocket$new(cluster = "stocks", token)
 ws$subscribe("T.AAPL")
+ws$unsubscribe("T.AAPL")
 ws$close()
 ```
 
@@ -155,4 +156,4 @@ Contributions to the package are welcome. Please start by filing an [issue](http
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.

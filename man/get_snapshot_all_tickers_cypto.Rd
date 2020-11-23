@@ -8,8 +8,6 @@ get_snapshot_all_tickers_cypto(token)
 }
 \arguments{
 \item{token}{A valid token for polygonio (character string).}
-
-\item{ticker}{A character string of an appropriate Ticker.}
 }
 \value{
 A tibble of financial data.

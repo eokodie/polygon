@@ -40,10 +40,11 @@ create_friendly_names <- function(data) {
     "S",                  "ask_size",
     "z", "tape_where_trade_occurred"
   ) %>%
-    dplyr::filter(old_names %in% names(out))
+    dplyr::filter(.data$old_names  %in% names(out))
 
   # Rename response cols using the lookup table
   names(out)[match(lookup_tbl$old_names, names(out))] <- lookup_tbl$new_names
   out
 }
 
+utils::globalVariables(c(".data"))

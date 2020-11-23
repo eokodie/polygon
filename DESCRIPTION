@@ -21,7 +21,9 @@ Imports:
     glue,
     dplyr,
     lubridate,
-    magrittr
+    magrittr,
+    promises,
+    later
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,

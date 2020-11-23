@@ -51,6 +51,7 @@ trades stream with the following:
 ``` r
 ws <- polygon::WebSocket$new(cluster = "stocks", token)
 ws$subscribe("T.AAPL")
+ws$unsubscribe("T.AAPL")
 ws$close()
 ```
 
