@@ -58,7 +58,7 @@ ws$unsubscribe("T.AAPL")
 ws$close()
 ```
 
-![](man/figures//websocket.gif)
+![](man/figures//websocket_v2.gif)
 
 The `polygon` package enables connection to 3 separate real-time clusters. One for each market type:
 

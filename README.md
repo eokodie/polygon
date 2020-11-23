@@ -55,7 +55,7 @@ ws$unsubscribe("T.AAPL")
 ws$close()
 ```
 
-![](man/figures//websocket.gif)
+![](man/figures//websocket_v2.gif)
 
 The `polygon` package enables connection to 3 separate real-time
 clusters. One for each market type:
@@ -152,5 +152,5 @@ you intend to fix or functionality you intend to add or modify.
 ## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+you agree to abide by its terms.
