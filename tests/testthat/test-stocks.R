@@ -64,3 +64,9 @@ test_that("get_grouped_daily_bars works", {
   expect_error(check_errors(locale = "test"), "must be one of")
   expect_error(check_errors(market = "test"), "must be one of")
 })
+
+test_that("get_gainers_and_loser works", {
+  expect_error(get_gainers_and_loser("test", direction = "g"), "must be one of")
+  expect_error(get_gainers_and_loser(5, "gainers"), "character")
+  expect_error(get_previous_close("test", "gainers"), "Unauthorized")
+})

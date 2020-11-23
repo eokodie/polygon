@@ -307,3 +307,40 @@ get_grouped_daily_bars <- function(
     magrittr::set_colnames(new_names)
   out
 }
+
+#' get_gainers_and_loser
+#' @description Get the current snapshot of the top 20 gainers or losers
+#' of the day.
+#' @param token (string) A valid token for polygonio.
+#' @param direction (string) Direction we want. Options include: "gainers" and
+#' "losers".
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(polygon)
+#' token = "YOUR_POLYGON_TOKEN",
+#' get_gainers_and_loser(token, "gainers")
+#' }
+get_gainers_and_loser <- function(token, direction = c("gainers", "losers")) {
+  rlang::arg_match(direction)
+  stopifnot(is.character(token))
+  # construct endpoint
+  base_url <- glue::glue(
+    "https://api.polygon.io",
+    "/v2/snapshot/locale/us/markets/stocks/{direction}",
+  )
+  url <- httr::modify_url(
+    base_url,
+    query = list(
+      apiKey = token
+    )
+  )
+  response <- httr::GET(url)
+  cashmachine:::check_http_status(response)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  content <- jsonlite::fromJSON(content)
+  tibble::tibble(content$tickers)
+}
+
