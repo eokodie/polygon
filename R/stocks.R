@@ -338,7 +338,7 @@ get_gainers_and_loser <- function(token, direction = c("gainers", "losers")) {
     )
   )
   response <- httr::GET(url)
-  cashmachine:::check_http_status(response)
+  check_http_status(response)
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   tibble::tibble(content$tickers)
