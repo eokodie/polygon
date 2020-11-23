@@ -89,3 +89,8 @@ ws <- polygon::WebSocket$new(cluster = "stocks", token)
 ws$subscribe("Q.AAPL")
 ws$unsubscribe("T.AAPL")
 ws$close()
+
+
+
+
+get_gainers_and_loser(token, direction = "gainers")
