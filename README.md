@@ -35,7 +35,7 @@ and some features are incomplete.
 
 ## Installation
 
-polygon\` is not yet on CRAN. You can install from GitHub with:
+`polygon` is not yet on CRAN. You can install from GitHub with:
 
 ``` r
 # install.packages("remotes")
@@ -137,3 +137,19 @@ get_locales(token)
 # 18 CH     Switzerland             
 # 19 SE     Sweden 
 ```
+
+## Issues & Contributions
+
+If you encounter a clear bug, please file an issue with a minimal
+reproducible example on
+[GitHub](https://github.com/eokodie/polygon/issues).
+
+Contributions to the package are welcome. Please start by filing an
+[issue](https://github.com/eokodie/polygon/issues), outlining the bug
+you intend to fix or functionality you intend to add or modify.
+
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.

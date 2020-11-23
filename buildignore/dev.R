@@ -81,3 +81,11 @@ from = "BTC",
 to = "USD",
 date = "2018-5-9"
 )
+
+source("~/.Rprofile")
+token <- Sys.getenv("polygon_token")
+
+ws <- polygon::WebSocket$new(cluster = "stocks", token)
+ws$subscribe("Q.AAPL")
+ws$unsubscribe("T.AAPL")
+ws$close()
