@@ -12,7 +12,7 @@ WebSocket
 A WebSocket template.
 }
 \description{
-This class manages WebSocket connections polygon.io clusters.
+This class manages WebSocket connections to polygon.io clusters.
 }
 \section{Methods}{
 

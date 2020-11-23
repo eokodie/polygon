@@ -1,7 +1,7 @@
 #' WebSocket
 #'
 #' @description
-#' This class manages WebSocket connections polygon.io clusters.
+#' This class manages WebSocket connections to polygon.io clusters.
 #'
 #' @section Methods:
 #' \describe{
@@ -89,7 +89,7 @@ WebSocket <- R6::R6Class(
       if(length(tickers) > 1) tickers <- glue::glue_collapse(tickers, sep = ",")
 
       msg <- glue::glue('{{"action":"unsubscribe","params":"{tickers}"}}')
-      ws$send(msg)
+      self$ws$send(msg)
     },
 
     run_child_loop_until_resolved = function(p) {
