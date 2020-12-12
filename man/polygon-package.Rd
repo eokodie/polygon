@@ -13,5 +13,10 @@ polygon provides an R WebSocket and RESTful API client for polygon.io.
 \author{
 \strong{Maintainer}: Ernest Omane-Kodie \email{eokodie@gmail.com}
 
+Other contributors:
+\itemize{
+  \item Winston Chang (Event queue processing) [contributor]
+}
+
 }
 \keyword{internal}

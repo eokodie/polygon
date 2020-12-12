@@ -47,4 +47,18 @@ create_friendly_names <- function(data) {
   out
 }
 
+#' @keywords internal
+get_secret <- function() {
+  tryCatch({
+    token <- secret::get_secret(
+      name  = "polygon_key",
+      key   = Sys.getenv("polygon_public_key"),
+      vault = file.path(here::here(), ".github/.vault")
+    )
+    token$polygon_token
+  },
+  error = function(e) NA_character_
+  )
+}
+
 utils::globalVariables(c(".data"))
