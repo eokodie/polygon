@@ -147,6 +147,24 @@ get_locales(token)
 # 19 SE     Sweden 
 ```
 
+Get a list of supported crypto currency exchanges with.
+```{r, eval=FALSE}
+polygon::get_exchanges_cypto(token)
+#> # A tibble: 22 x 5
+#>       id type     market name     url                      
+#>    <int> <chr>    <chr>  <chr>    <chr>                    
+#>  1     1 exchange crypto GDAX     https://www.gdax.com/    
+#>  2     2 exchange crypto BITFINEX https://www.bitfinex.com/
+#>  3     3 exchange crypto BitMEX   https://www.bitmex.com/  
+#>  4     4 exchange crypto Binance  https://www.binance.com/ 
+#>  5     5 exchange crypto Binance  https://gemini.com/      
+#>  6     6 exchange crypto Bitstamp https://www.bitstamp.net/
+#>  7     7 exchange crypto POLONIEX https://poloniex.com/    
+#>  8     8 exchange crypto CEXIO    https://cex.io/          
+#>  9     9 exchange crypto BitBay   https://bitbay.net/en    
+#> 10    10 exchange crypto HitBTC   https://hitbtc.com/      
+#> # ... with 12 more rows
+```
 
 ## Issues & Contributions
 

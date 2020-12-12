@@ -230,13 +230,12 @@ get_aggregates <- function(
   content <- jsonlite::fromJSON(content)
 
   # clean response
-  old_names <- c("v", "o", "c", "h", "l", "t")
-  new_names <- c("volume", "open", "close", "high", "low", "time")
-  out <- tibble::tibble(content$results) %>%
-    dplyr::select(dplyr::one_of(old_names)) %>%
-    dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
-    magrittr::set_colnames(new_names)
-  out
+  out <- content$results %>%
+    dplyr::select(dplyr::one_of(c("v", "o", "c", "h", "l", "t"))) %>%
+    dplyr::mutate(t = lubridate::as_datetime(t/1000))
+
+  colnames(out) <- c("volume", "open", "close", "high", "low", "time")
+  tibble::as_tibble(out)
 }
 
 #' get_grouped_daily_bars

@@ -20,6 +20,24 @@ test_that("stocks aggregates work", {
   expect_error(check_errors(to = 100), "character")
   expect_error(check_errors(), "Unauthorized")
   expect_error(check_errors(timespan = "nanoseconds"), "must be one of")
+
+  key <- polygon:::get_secret()
+  if(!is.na(key)) {
+    out <- get_aggregates(
+      token = key,
+      ticker = "AAPL",
+      multiplier = 1,
+      timespan = "day",
+      from = "2019-01-01",
+      to = "2019-02-01"
+    )
+    expect_s3_class(out, "tbl_df")
+    expect_equal(ncol(out), 6)
+
+    col_names <- c("volume", "open", "close", "high", "low", "time")
+    expect_named(out, c("volume", "open", "close", "high", "low", "time"))
+    expect_identical(colnames(out), col_names)
+  }
 })
 
 test_that("get_exchanges works", {
