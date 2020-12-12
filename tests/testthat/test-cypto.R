@@ -1,9 +1,21 @@
+key <- polygon:::get_secret()
+
 test_that("get_exchanges_cypto works", {
+  if(!is.na(key)) {
+    out <- get_exchanges_cypto(token = key)
+    expect_s3_class(out, "tbl_df")
+    expect_equal(ncol(out), 5)
+  }
   expect_error(get_exchanges_cypto(token = 6), "character")
   expect_error(get_exchanges_cypto("test"), "Unauthorized")
 })
 
 test_that("get_snapshot_all_tickers_cypto works", {
+  if(!is.na(key)) {
+    out <- get_snapshot_all_tickers_cypto(token = key)
+    expect_s3_class(out, "tbl_df")
+    expect_equal(ncol(out), 8)
+  }
   expect_error(get_snapshot_all_tickers_cypto(token = 6),  "character")
   expect_error(get_snapshot_all_tickers_cypto(token = "test"), "Unauthorized")
 })
