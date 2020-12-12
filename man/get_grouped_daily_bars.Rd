@@ -4,13 +4,12 @@
 \alias{get_grouped_daily_bars}
 \title{get_grouped_daily_bars}
 \usage{
-get_grouped_daily_bars(token, locale = c("G", "US", "GB", "CA", "NL",
-  "GR", "SP", "DE", "BE", "DK", "FI", "IE", "PT", "IN", "MX", "FR", "CN",
-  "CH", "SE"), market = c("STOCKS", "CRYPTO", "BONDS", "MF", "MMF",
-  "INDICES", "FX"), date)
+get_grouped_daily_bars(token, date)
 }
 \arguments{
 \item{token}{(string) A valid token for polygonio.}
+
+\item{date}{(string) From date ('YYYY-MM-DD').}
 
 \item{locale}{(string) Locale of the aggregates. Run `get_locales()` to get
 a list of all possible locales.}
@@ -18,8 +17,6 @@ a list of all possible locales.}
 \item{market}{(integer) Market of the aggregates. Run `get_locales()` to get
 a list of all possible locales.
 options include: "STOCKS", "CRYPTO", "BONDS", "MF", "MMF", "INDICES", "FX".}
-
-\item{date}{(string) From date ('YYYY-MM-DD').}
 }
 \value{
 A tibble of financial data.
@@ -32,11 +29,7 @@ Get the daily OHLC for entire markets..
 library(polygon)
 get_aggregates(
 token = "YOUR_POLYGON_TOKEN",
-ticker = "AAPL",
-multiplier = 1,
-timespan = "day",
-from = "2019-01-01",
-to = "2019-02-01"
+date = "2020-12-11"
 )
 }
 }

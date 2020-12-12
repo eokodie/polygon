@@ -230,12 +230,13 @@ get_aggregates <- function(
   content <- jsonlite::fromJSON(content)
 
   # clean response
-  out <- content$results %>%
-    dplyr::select(dplyr::one_of(c("v", "o", "c", "h", "l", "t"))) %>%
-    dplyr::mutate(t = lubridate::as_datetime(t/1000))
-
-  colnames(out) <- c("volume", "open", "close", "high", "low", "time")
-  tibble::as_tibble(out)
+  old_names <- c("v", "o", "c", "h", "l", "t")
+  new_names <- c("volume", "open", "close", "high", "low", "time")
+  out <- tibble::tibble(content$results) %>%
+    dplyr::select(dplyr::one_of(old_names)) %>%
+    dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
+    magrittr::set_colnames(new_names)
+  out
 }
 
 #' get_grouped_daily_bars
@@ -258,30 +259,18 @@ get_aggregates <- function(
 #' library(polygon)
 #' get_aggregates(
 #' token = "YOUR_POLYGON_TOKEN",
-#' ticker = "AAPL",
-#' multiplier = 1,
-#' timespan = "day",
-#' from = "2019-01-01",
-#' to = "2019-02-01"
+#' date = "2020-12-11"
 #' )
 #' }
-get_grouped_daily_bars <- function(
-  token,
-  locale = c("G", "US", "GB", "CA", "NL", "GR", "SP", "DE", "BE", "DK", "FI",
-             "IE", "PT", "IN", "MX", "FR", "CN", "CH", "SE"),
-  market = c("STOCKS", "CRYPTO", "BONDS", "MF", "MMF", "INDICES", "FX"),
-  date
-  ){
+get_grouped_daily_bars <- function(token, date){
 
   stopifnot(is.character(token))
-  locale <- rlang::arg_match(locale)
-  market <- rlang::arg_match(market)
   stopifnot(is.character(date))
 
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",
-    "/v2/aggs/grouped/locale/{locale}/market/{market}/{date}"
+    "/v2/aggs/grouped/locale/us/market/stocks/{date}"
   )
   url <- httr::modify_url(
     base_url,
@@ -295,13 +284,13 @@ get_grouped_daily_bars <- function(
   content <- httr::content(response, "text", encoding = "UTF-8")
   content <- jsonlite::fromJSON(content)
   out <- tibble::tibble(content$results)
-  stopifnot(nrow(out) == 0)
+  stopifnot(nrow(out) > 0)
 
   # clean response
   old_names <- c("T", "v", "vw", "o", "c", "h", "l", "t")
   new_names <- c("ticker", "volume","weighted volume",
                  "open", "close", "high", "low", "time")
-  dplyr::select(out, dplyr::one_of(old_names)) %>%
+  out <- dplyr::select(out, dplyr::one_of(old_names)) %>%
     dplyr::mutate(t = lubridate::as_datetime(t/1000)) %>%
     magrittr::set_colnames(new_names)
   out
