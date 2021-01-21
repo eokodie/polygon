@@ -24,7 +24,7 @@ Imports:
     promises,
     later,
     secret
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     covr

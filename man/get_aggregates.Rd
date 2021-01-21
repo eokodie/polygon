@@ -4,8 +4,14 @@
 \alias{get_aggregates}
 \title{get_aggregates}
 \usage{
-get_aggregates(token, ticker, multiplier, timespan = c("minute", "hour",
-  "day", "week", "month", "quarter", "year"), from, to)
+get_aggregates(
+  token,
+  ticker,
+  multiplier,
+  timespan = c("minute", "hour", "day", "week", "month", "quarter", "year"),
+  from,
+  to
+)
 }
 \arguments{
 \item{token}{(string) A valid token for polygonio.}
