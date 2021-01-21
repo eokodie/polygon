@@ -15,6 +15,15 @@ check_http_status <- function(data) {
   )
 }
 
+#' Check the polygon token environment variable.
+#' @details Check that the POLYGON_TOKEN environment variable has been set.
+#' You can obtain an API key from the [Polygon.io Website](https://polygon.io/).
+#' @export
+check_token <- function(){
+  if(nchar(Sys.getenv("POLYGON_TOKEN")) ==  0)
+    rlang::abort("Set polygon token with Sys.setenv('YOUR_POLYGON_TOKEN').")
+}
+
 #' create_friendly_names
 #' @param data A tibble.
 #' @return A tibble.
