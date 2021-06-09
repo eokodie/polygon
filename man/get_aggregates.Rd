@@ -5,7 +5,6 @@
 \title{get_aggregates}
 \usage{
 get_aggregates(
-  token,
   ticker,
   multiplier,
   timespan = c("minute", "hour", "day", "week", "month", "quarter", "year"),
@@ -14,8 +13,6 @@ get_aggregates(
 )
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
-
 \item{ticker}{(string) Ticker symbol of the request.
 Some tickers require a prefix, see examples below:
 Stocks: 'AAPL'
@@ -43,7 +40,6 @@ time window sizes for a ticker.
 \dontrun{
 library(polygon)
 get_aggregates(
-token = "YOUR_POLYGON_TOKEN",
 ticker = "AAPL",
 multiplier = 1,
 timespan = "day",

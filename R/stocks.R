@@ -2,7 +2,6 @@
 #'
 #' @description Get historic NBBO quotes for a ticker.
 #'
-#' @param token (string) A valid token for polygonio.
 #' @param ticker (string) An appropriate Ticker
 #' @param date  (string) Date of the historic ticks to retrieve ('YYYY-MM-DD').
 #'
@@ -14,13 +13,11 @@
 #' library(polygon)
 #'
 #' get_historic_quotes(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
 #' date = "2019-01-01"
 #' )
 #' }
-get_historic_quotes <- function(token, ticker, date) {
-  stopifnot(is.character(token))
+get_historic_quotes <- function(ticker, date) {
   stopifnot(is.character(ticker))
   stopifnot(is.character(date))
   # construct endpoint
@@ -31,14 +28,12 @@ get_historic_quotes <- function(token, ticker, date) {
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
   out <- tibble::tibble(content$results)
   create_friendly_names(out)
 }
@@ -47,29 +42,24 @@ get_historic_quotes <- function(token, ticker, date) {
 #' get_exchanges
 #'
 #' @description Get list of stock exchanges which are supported by Polygon.io
-#' @param token (string) A valid token for polygonio.
 #' @return A tibble.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' library(polygon)
-#' token = "YOUR_POLYGON_TOKEN",
-#' get_exchanges(token)
+#' get_exchanges()
 #' }
-get_exchanges <- function(token) {
-  stopifnot(is.character(token))
+get_exchanges <- function() {
   url <- httr::modify_url(
     url   = "https://api.polygon.io/v1/meta/exchanges",
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
 
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
   tibble::tibble(content)
 }
 
@@ -77,7 +67,6 @@ get_exchanges <- function(token) {
 #'
 #' @description Get the previous day close for the specified ticker
 #'
-#' @param token A valid token for polygonio (character string).
 #' @param ticker A character string of an appropriate Ticker.
 #' @return A tibble of financial data.
 #' @export
@@ -87,14 +76,11 @@ get_exchanges <- function(token) {
 #' library(polygon)
 #'
 #' get_previous_close(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL"
 #' )
 #' }
-get_previous_close <- function(token, ticker) {
-  stopifnot(is.character(token))
+get_previous_close <- function(ticker) {
   stopifnot(is.character(ticker))
-
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",
@@ -103,15 +89,12 @@ get_previous_close <- function(token, ticker) {
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
-  out <- tibble::tibble(content$results)
+  content <- clean_response(response)
 
   # clean response
   old_names <- c("T", "v", "o", "c", "h", "l", "t")
@@ -131,7 +114,6 @@ get_previous_close <- function(token, ticker) {
 #' minute aggregate, daily aggregate and last trade.
 #' As well as previous days aggregate and calculated change for today.
 #'
-#' @param token A valid token for polygonio (character string).
 #' @return A tibble of financial data.
 #' @export
 #'
@@ -139,13 +121,9 @@ get_previous_close <- function(token, ticker) {
 #' \dontrun{
 #' library(polygon)
 #'
-#' get_snapshot_all_tickers_stocks(
-#' token = "YOUR_POLYGON_TOKEN",
-#' ticker = "AAPL"
-#' )
+#' get_snapshot_all_tickers_stocks(ticker = "AAPL")
 #' }
-get_snapshot_all_tickers_stocks <- function(token) {
-  stopifnot(is.character(token))
+get_snapshot_all_tickers_stocks <- function() {
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",
@@ -154,14 +132,12 @@ get_snapshot_all_tickers_stocks <- function(token) {
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
   tibble::tibble(content$tickers)
 }
 
@@ -169,8 +145,6 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #'
 #' @description Get OHLC aggregates for a date range, in custom
 #' time window sizes for a ticker.
-#'
-#' @param token (string) A valid token for polygonio.
 #' @param ticker (string) Ticker symbol of the request.
 #' Some tickers require a prefix, see examples below:
 #' Stocks: 'AAPL'
@@ -189,7 +163,6 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #' \dontrun{
 #' library(polygon)
 #' get_aggregates(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
 #' multiplier = 1,
 #' timespan = "day",
@@ -198,7 +171,6 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #' )
 #' }
 get_aggregates <- function(
-  token,
   ticker,
   multiplier,
   timespan = c('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'),
@@ -206,7 +178,6 @@ get_aggregates <- function(
   to
 ) {
   timespan <- rlang::arg_match(timespan)
-  stopifnot(is.character(token))
   stopifnot(is.character(ticker))
   stopifnot(is.character(from))
   stopifnot(is.character(to))
@@ -220,14 +191,12 @@ get_aggregates <- function(
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
 
   # clean response
   old_names <- c("v", "o", "c", "h", "l", "t")
@@ -243,7 +212,6 @@ get_aggregates <- function(
 #'
 #' @description Get the daily OHLC for entire markets..
 #'
-#' @param token (string) A valid token for polygonio.
 #' @param locale (string) Locale of the aggregates. Run `get_locales()` to get
 #' a list of all possible locales.
 #'
@@ -258,13 +226,10 @@ get_aggregates <- function(
 #' \dontrun{
 #' library(polygon)
 #' get_aggregates(
-#' token = "YOUR_POLYGON_TOKEN",
 #' date = "2020-12-11"
 #' )
 #' }
-get_grouped_daily_bars <- function(token, date){
-
-  stopifnot(is.character(token))
+get_grouped_daily_bars <- function(date){
   stopifnot(is.character(date))
 
   # construct endpoint
@@ -275,14 +240,12 @@ get_grouped_daily_bars <- function(token, date){
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
   out <- tibble::tibble(content$results)
   stopifnot(nrow(out) > 0)
 
@@ -299,7 +262,6 @@ get_grouped_daily_bars <- function(token, date){
 #' get_gainers_and_loser
 #' @description Get the current snapshot of the top 20 gainers or losers
 #' of the day.
-#' @param token (string) A valid token for polygonio.
 #' @param direction (string) Direction we want. Options include: "gainers" and
 #' "losers".
 #' @return A tibble.
@@ -308,12 +270,10 @@ get_grouped_daily_bars <- function(token, date){
 #' @examples
 #' \dontrun{
 #' library(polygon)
-#' token = "YOUR_POLYGON_TOKEN",
-#' get_gainers_and_loser(token, "gainers")
+#' get_gainers_and_loser("gainers")
 #' }
-get_gainers_and_loser <- function(token, direction = c("gainers", "losers")) {
+get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   rlang::arg_match(direction)
-  stopifnot(is.character(token))
   # construct endpoint
   base_url <- glue::glue(
     "https://api.polygon.io",
@@ -322,13 +282,11 @@ get_gainers_and_loser <- function(token, direction = c("gainers", "losers")) {
   url <- httr::modify_url(
     base_url,
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- clean_response(response)
   tibble::tibble(content$tickers)
 }
 

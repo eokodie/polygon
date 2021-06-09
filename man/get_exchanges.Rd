@@ -4,10 +4,7 @@
 \alias{get_exchanges}
 \title{get_exchanges}
 \usage{
-get_exchanges(token)
-}
-\arguments{
-\item{token}{(string) A valid token for polygonio.}
+get_exchanges()
 }
 \value{
 A tibble.
@@ -18,7 +15,6 @@ Get list of stock exchanges which are supported by Polygon.io
 \examples{
 \dontrun{
 library(polygon)
-token = "YOUR_POLYGON_TOKEN",
-get_exchanges(token)
+get_exchanges()
 }
 }

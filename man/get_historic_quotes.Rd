@@ -4,11 +4,9 @@
 \alias{get_historic_quotes}
 \title{get_historic_quotes}
 \usage{
-get_historic_quotes(token, ticker, date)
+get_historic_quotes(ticker, date)
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
-
 \item{ticker}{(string) An appropriate Ticker}
 
 \item{date}{(string) Date of the historic ticks to retrieve ('YYYY-MM-DD').}
@@ -24,7 +22,6 @@ Get historic NBBO quotes for a ticker.
 library(polygon)
 
 get_historic_quotes(
-token = "YOUR_POLYGON_TOKEN",
 ticker = "AAPL",
 date = "2019-01-01"
 )

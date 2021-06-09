@@ -4,11 +4,9 @@
 \alias{get_grouped_daily_bars}
 \title{get_grouped_daily_bars}
 \usage{
-get_grouped_daily_bars(token, date)
+get_grouped_daily_bars(date)
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
-
 \item{date}{(string) From date ('YYYY-MM-DD').}
 
 \item{locale}{(string) Locale of the aggregates. Run `get_locales()` to get
@@ -28,7 +26,6 @@ Get the daily OHLC for entire markets..
 \dontrun{
 library(polygon)
 get_aggregates(
-token = "YOUR_POLYGON_TOKEN",
 date = "2020-12-11"
 )
 }

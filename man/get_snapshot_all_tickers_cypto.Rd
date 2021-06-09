@@ -4,10 +4,7 @@
 \alias{get_snapshot_all_tickers_cypto}
 \title{get_snapshot_all_tickers_cypto}
 \usage{
-get_snapshot_all_tickers_cypto(token)
-}
-\arguments{
-\item{token}{A valid token for polygonio (character string).}
+get_snapshot_all_tickers_cypto()
 }
 \value{
 A tibble of financial data.
@@ -21,9 +18,6 @@ As well as previous days aggregate and calculated change for today.
 \dontrun{
 library(polygon)
 
-get_snapshot_all_tickers_cypto(
-token = "YOUR_POLYGON_TOKEN",
-ticker = "X:BTCUSD"
-)
+get_snapshot_all_tickers_cypto()
 }
 }

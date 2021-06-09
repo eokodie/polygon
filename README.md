@@ -3,27 +3,20 @@
 
 # polygon
 
-<div data-align="center">
+<div align="center">
 
 <!-- hex -->
-
 <!-- <img src="./man/figures/logo.png" height = "200px" /> -->
-
 <!-- badges: start -->
-
 <!-- Experimental -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 <!-- [![Travis build status](https://travis-ci.org/eokodie/polygon.svg?branch=main)](https://travis-ci.org/eokodie/polygon)  -->
-
 <!-- [![Codecov test coverage](https://codecov.io/gh/eokodie/polygon/branch/master/graph/badge.svg)](https://codecov.io/gh/eokodie/polygon?branch=main) -->
-
 <!-- badges: end -->
-
 <!-- links start -->
-
 <!-- links end -->
 
 </div>
@@ -42,6 +35,18 @@ and some features are incomplete.
 remotes::install_github("eokodie/polygon", ref = "main")
 ```
 
+## Authentication
+
+Set your token as an environment variable POLYGON\_TOKEN by adding this
+line in your .Renviron file:
+
+``` r
+POLYGON_TOKEN = "<your-polygon-token-here>" 
+```
+
+If you don’t have an API key already, you can get one from
+[Polygon](https://polygon.io).
+
 ## WebSocket
 
 The WebSocket client is implemented with R6 classes to give a simplified
@@ -49,7 +54,8 @@ interface. For example, you can connect to Apple Inc’s real-time stock
 trades stream with the following:
 
 ``` r
-ws <- polygon::WebSocket$new(cluster = "stocks", token)
+library(polygon)
+ws <- polygon::WebSocket$new(cluster = "stocks")
 ws$subscribe("T.AAPL")
 ws$unsubscribe("T.AAPL")
 ws$close()
@@ -61,7 +67,7 @@ The `polygon` package enables connection to 3 separate real-time
 clusters. One for each market type:
 
 | Cluster        | Websocket Implementation |
-| :------------- | :----------------------: |
+|:---------------|:------------------------:|
 | Stocks cluster |   :heavy\_check\_mark:   |
 | Forex Cluster  |   :heavy\_check\_mark:   |
 | Crypto Cluster |   :heavy\_check\_mark:   |
@@ -74,10 +80,7 @@ some examples.
 You can download Apple quotes data with:
 
 ``` r
-token = Sys.getenv("polygon_token")
-
 data <- polygon::get_aggregates(
-  token       = token,
   ticker     = "AAPL",
   multiplier = 15,
   timespan   = "minute",
@@ -113,7 +116,7 @@ fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 You can get the list of currently supported locales with:
 
 ``` r
-get_locales(token)
+get_locales()
 
 # # A tibble: 19 x 2
 #    locale name                    
@@ -142,7 +145,7 @@ get_locales(token)
 Get a list of supported crypto currency exchanges with.
 
 ``` r
-polygon::get_exchanges_cypto(token)
+polygon::get_exchanges_cypto()
 #> # A tibble: 22 x 5
 #>       id type     market name     url                      
 #>    <int> <chr>    <chr>  <chr>    <chr>                    

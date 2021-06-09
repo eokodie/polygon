@@ -20,7 +20,7 @@ WebSocket <- R6::R6Class(
     ws = NULL,
     cluster = NULL,
 
-    initialize = function(cluster, token){
+    initialize = function(cluster){
       self$cluster <- cluster
       self$ws <- self$connect_to_cluster(cluster)
 
@@ -43,7 +43,7 @@ WebSocket <- R6::R6Class(
       self$ws$connect()
       p <- promises::promise(private$promise)
       private$run_child_loop_until_resolved(p)
-      self$authenticate(token)
+      self$authenticate()
     },
 
     # close database connection
@@ -58,7 +58,8 @@ WebSocket <- R6::R6Class(
     },
 
     # Authenticate connection
-    authenticate = function(token) {
+    authenticate = function() {
+      token <- polygon_auth()
       msg <- glue::glue('{{"action":"auth","params":"{token}"}}')
       self$ws$send(msg)
     },

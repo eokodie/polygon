@@ -7,10 +7,12 @@ check_http_status <- function(data) {
   status_code <- httr::status_code(data)
   switch(
     as.character(status_code),
-    "200" = "OK",
+    "200" = invisible('OK'),
     "401" = stop("Unauthorized - Check our API Key and account status."),
     "404" = stop("The specified resource was not found."),
     "409" = stop("Parameter is invalid or incorrect."),
+    "409" = stop("Parameter is invalid or incorrect."),
+    "403" = stop("Unauthorized. Upgrade your plan at https://polygon.io/pricing"),
     stop("Unexpected error")
   )
 }
@@ -56,18 +58,31 @@ create_friendly_names <- function(data) {
   out
 }
 
+#' create_friendly_names
+#' @param response A response object.
+#' @return A tibble.
+#' @keywords internal
+clean_response <- function(response){
+  stopifnot(inherits(response, 'response'))
+  check_http_status(response)
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  out <- jsonlite::fromJSON(content)
+  out
+}
+
 #' @keywords internal
 get_secret <- function() {
   tryCatch({
-    token <- secret::get_secret(
+    out <- secret::get_secret(
       name  = "polygon_key",
       key   = Sys.getenv("polygon_public_key"),
       vault = file.path(here::here(), ".github/.vault")
     )
-    token$polygon_token
+    out$polygon_token
   },
   error = function(e) NA_character_
   )
 }
 
 utils::globalVariables(c(".data"))
+
