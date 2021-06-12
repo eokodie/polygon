@@ -37,14 +37,23 @@ remotes::install_github("eokodie/polygon", ref = "main")
 
 ## Authentication
 
-Set your token as an environment variable POLYGON\_TOKEN by adding this
-line in your .Renviron file:
+By default, the `polygon` R package looks for API keys in environment
+variables. You can also use this to specify your token. For example:
 
 ``` r
-POLYGON_TOKEN = "<your-polygon-token-here>" 
+Sys.setenv("POLYGON_TOKEN" = "my-polygon-token")
 ```
 
-If you don’t have an API key already, you can get one from
+These can alternatively be set on the command line or via an
+Renviron.site or .Renviron file.
+
+e.g. In your .Renviron:
+
+``` r
+POLYGON_TOKEN = "my-polygon-token"
+```
+
+If you don’t have an API key already, you can obtain one from
 [Polygon](https://polygon.io).
 
 ## WebSocket
