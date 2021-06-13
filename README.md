@@ -21,7 +21,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 </div>
 
-> A WebSocket & RESTful API client for [Polygon](https://polygon.io).
+> A WebSocket & RESTful API client for [polygon.io](https://polygon.io).
 
 This package is under active development. The API is likely to change
 and some features are incomplete.
@@ -54,7 +54,7 @@ POLYGON_TOKEN = "my-polygon-token"
 ```
 
 If you don’t have an API key already, you can obtain one from
-[Polygon](https://polygon.io).
+[polygon.io](https://polygon.io).
 
 ## WebSocket
 

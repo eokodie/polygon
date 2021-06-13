@@ -15,4 +15,3 @@ A tibble.
 \description{
 parse_response
 }
-\keyword{internal}

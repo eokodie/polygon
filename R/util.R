@@ -1,7 +1,7 @@
 #' parse_response
 #' @param response A response object.
 #' @return A tibble.
-#' @keywords internal
+#' @export
 parse_response <- function(response){
   if (httr::http_type(response) != "application/json") {
     stop("API did not return json", call. = FALSE)

@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 </div>
 
 
-> A WebSocket & RESTful API client for [Polygon](https://polygon.io).
+> A WebSocket & RESTful API client for [polygon.io](https://polygon.io).
 
 This package is under active development. The API is likely to change and some features are incomplete.
 
@@ -64,7 +64,7 @@ e.g. In your .Renviron:
 POLYGON_TOKEN = "my-polygon-token"
 ```
 
-If you don't have an API key already, you can obtain one from [Polygon](https://polygon.io).
+If you don't have an API key already, you can obtain one from [polygon.io](https://polygon.io).
 
 ## WebSocket
 
