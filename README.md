@@ -41,7 +41,7 @@ By default, the `polygon` R package looks for API keys in environment
 variables. You can also use this to specify your token. For example:
 
 ``` r
-Sys.setenv("POLYGON_TOKEN" = "my-polygon-token")
+Sys.setenv(POLYGON_TOKEN = "my-polygon-token")
 ```
 
 These can alternatively be set on the command line or via an
