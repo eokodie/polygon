@@ -28,6 +28,6 @@ get_snapshot_all_tickers_forex <- function() {
   )
 
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }

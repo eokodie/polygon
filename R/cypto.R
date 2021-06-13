@@ -35,7 +35,7 @@ get_open_close_crypto <- function(from, to, date) {
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   content$results
 }
 
@@ -59,7 +59,7 @@ get_exchanges_cypto <- function() {
   )
 
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content)
 }
 
@@ -93,6 +93,6 @@ get_snapshot_all_tickers_cypto <- function() {
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }

@@ -1,29 +1,24 @@
-#' check_http_status
-#' @description Check http response messages.
-#' @param data An http response object.
+#' parse_response
+#' @param response A response object.
+#' @return A tibble.
 #' @keywords internal
-check_http_status <- function(data) {
-  stopifnot(inherits(data, "response"))
-  status_code <- httr::status_code(data)
-  switch(
-    as.character(status_code),
-    "200" = invisible('OK'),
-    "401" = stop("Unauthorized - Check our API Key and account status."),
-    "404" = stop("The specified resource was not found."),
-    "409" = stop("Parameter is invalid or incorrect."),
-    "409" = stop("Parameter is invalid or incorrect."),
-    "403" = stop("Unauthorized. Upgrade your plan at https://polygon.io/pricing"),
-    stop("Unexpected error")
-  )
-}
+parse_response <- function(response){
+  if (httr::http_type(response) != "application/json") {
+    stop("API did not return json", call. = FALSE)
+  }
+  out <- jsonlite::fromJSON(httr::content(response, "text", encoding = "UTF-8"))
 
-#' Check the polygon token environment variable.
-#' @details Check that the POLYGON_TOKEN environment variable has been set.
-#' You can obtain an API key from the [Polygon.io Website](https://polygon.io/).
-#' @export
-check_token <- function(){
-  if(nchar(Sys.getenv("POLYGON_TOKEN")) ==  0)
-    rlang::abort("Set polygon token with Sys.setenv('YOUR_POLYGON_TOKEN').")
+  if (httr::http_error(response)) {
+    stop(
+      sprintf(
+        "Polygon API request failed [%s]\n%s",
+        httr::status_code(response),
+        out$message
+      ),
+      call. = FALSE
+    )
+  }
+  out
 }
 
 #' create_friendly_names
@@ -58,18 +53,6 @@ create_friendly_names <- function(data) {
   out
 }
 
-#' create_friendly_names
-#' @param response A response object.
-#' @return A tibble.
-#' @keywords internal
-clean_response <- function(response){
-  stopifnot(inherits(response, 'response'))
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  out <- jsonlite::fromJSON(content)
-  out
-}
-
 #' @keywords internal
 get_secret <- function() {
   tryCatch({
@@ -84,5 +67,4 @@ get_secret <- function() {
   )
 }
 
-utils::globalVariables(c(".data"))
 

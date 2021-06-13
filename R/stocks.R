@@ -33,7 +33,7 @@ get_historic_quotes <- function(ticker, date) {
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   out <- tibble::tibble(content$results)
   create_friendly_names(out)
 }
@@ -59,7 +59,7 @@ get_exchanges <- function() {
   )
 
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content)
 }
 
@@ -94,7 +94,7 @@ get_previous_close <- function(ticker) {
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
 
   # clean response
   old_names <- c("T", "v", "o", "c", "h", "l", "t")
@@ -137,7 +137,7 @@ get_snapshot_all_tickers_stocks <- function() {
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }
 
@@ -196,7 +196,7 @@ get_aggregates <- function(
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
 
   # clean response
   old_names <- c("v", "o", "c", "h", "l", "t")
@@ -245,7 +245,7 @@ get_grouped_daily_bars <- function(date){
   )
   # get response
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   out <- tibble::tibble(content$results)
   stopifnot(nrow(out) > 0)
 
@@ -286,7 +286,7 @@ get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
     )
   )
   response <- httr::GET(url)
-  content <- clean_response(response)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }
 
