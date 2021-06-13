@@ -43,8 +43,8 @@ get_aggregates(
 ticker = "AAPL",
 multiplier = 1,
 timespan = "day",
-from = "2019-01-01",
-to = "2019-02-01"
+from = Sys.Date() - 20,
+to = Sys.Date() - 1
 )
 }
 }

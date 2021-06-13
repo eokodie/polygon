@@ -158,8 +158,8 @@ get_snapshot_all_tickers_stocks <- function() {
 #' ticker = "AAPL",
 #' multiplier = 1,
 #' timespan = "day",
-#' from = "2019-01-01",
-#' to = "2019-02-01"
+#' from = Sys.Date() - 20,
+#' to = Sys.Date() - 1
 #' )
 #' }
 get_aggregates <- function(
@@ -219,7 +219,7 @@ get_aggregates <- function(
 #' \dontrun{
 #' library(polygon)
 #' get_aggregates(
-#' date = "2020-12-11"
+#' date = Sys.Date() - 1
 #' )
 #' }
 get_grouped_daily_bars <- function(date){

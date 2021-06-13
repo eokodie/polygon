@@ -7,9 +7,9 @@
 get_open_close_crypto(from, to, date)
 }
 \arguments{
-\item{from}{(Date) From Symbol of the pair.}
+\item{from}{(String) From Symbol of the pair.}
 
-\item{to}{(Date) To Symbol of the pair.}
+\item{to}{(String) To Symbol of the pair.}
 
 \item{date}{(Date) Date of the requested open/close.}
 }
@@ -25,7 +25,7 @@ library(polygon)
 get_open_close_crypto(
 from = "BTC",
 to = "USD",
-date = "2019-01-01"
+date = Sys.Date() - 1
 )
 }
 }

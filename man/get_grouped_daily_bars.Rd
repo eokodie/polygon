@@ -26,7 +26,7 @@ Get the daily OHLC for entire markets..
 \dontrun{
 library(polygon)
 get_aggregates(
-date = "2020-12-11"
+date = Sys.Date() - 1
 )
 }
 }
