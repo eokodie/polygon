@@ -16,10 +16,7 @@
 #' )
 #' }
 get_snapshot_all_tickers_forex <- function() {
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/global/markets/forex/tickers"
-  )
+  base_url <- glue::glue("{site()}/v2/snapshot/locale/global/markets/forex/tickers")
   url <- httr::modify_url(
     base_url,
     query = list(

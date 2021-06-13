@@ -67,4 +67,7 @@ get_secret <- function() {
   )
 }
 
-
+#' @keywords internal
+site <- function() {
+  "https://api.polygon.io"
+}

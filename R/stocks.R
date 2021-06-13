@@ -21,10 +21,7 @@ get_historic_quotes <- function(ticker, date) {
   stopifnot(is.character(ticker))
   stopifnot(is.character(date))
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/ticks/stocks/nbbo/{ticker}/{date}"
-  )
+  base_url <- glue::glue("{site()}/v2/ticks/stocks/nbbo/{ticker}/{date}")
   url <- httr::modify_url(
     base_url,
     query = list(
@@ -82,10 +79,7 @@ get_exchanges <- function() {
 get_previous_close <- function(ticker) {
   stopifnot(is.character(ticker))
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/ticker/{ticker}/prev"
-  )
+  base_url <- glue::glue("{site()}/v2/aggs/ticker/{ticker}/prev")
   url <- httr::modify_url(
     base_url,
     query = list(
@@ -125,10 +119,7 @@ get_previous_close <- function(ticker) {
 #' }
 get_snapshot_all_tickers_stocks <- function() {
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/us/markets/stocks/tickers"
-  )
+  base_url <- glue::glue("{site()}/v2/snapshot/locale/us/markets/stocks/tickers")
   url <- httr::modify_url(
     base_url,
     query = list(
@@ -185,8 +176,7 @@ get_aggregates <- function(
 
   # construct endpoint
   base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
+    "{site()}/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
   )
   url <- httr::modify_url(
     base_url,
@@ -233,10 +223,7 @@ get_grouped_daily_bars <- function(date){
   stopifnot(is.character(date))
 
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/grouped/locale/us/market/stocks/{date}"
-  )
+  base_url <- glue::glue("{site()}/v2/aggs/grouped/locale/us/market/stocks/{date}")
   url <- httr::modify_url(
     base_url,
     query = list(
@@ -276,8 +263,7 @@ get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   rlang::arg_match(direction)
   # construct endpoint
   base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/us/markets/stocks/{direction}",
+    "{site()}/v2/snapshot/locale/us/markets/stocks/{direction}"
   )
   url <- httr::modify_url(
     base_url,

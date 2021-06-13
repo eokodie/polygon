@@ -23,10 +23,7 @@ get_open_close_crypto <- function(from, to, date) {
   stopifnot(is.character(date))
 
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v1/open-close/crypto/{from}/{to}/{date}"
-  )
+  base_url <- glue::glue("{site()}/v1/open-close/crypto/{from}/{to}/{date}")
   url <- httr::modify_url(
     base_url,
     query = list(
@@ -81,10 +78,7 @@ get_exchanges_cypto <- function() {
 #' }
 get_snapshot_all_tickers_cypto <- function() {
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/global/markets/crypto/tickers"
-  )
+  base_url <- glue::glue("{site()}/v2/snapshot/locale/global/markets/crypto/tickers")
   url <- httr::modify_url(
     base_url,
     query = list(
