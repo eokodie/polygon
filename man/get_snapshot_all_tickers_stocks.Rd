@@ -18,6 +18,6 @@ As well as previous days aggregate and calculated change for today.
 \dontrun{
 library(polygon)
 
-get_snapshot_all_tickers_stocks(ticker = "AAPL")
+get_snapshot_all_tickers_stocks()
 }
 }

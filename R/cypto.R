@@ -2,9 +2,9 @@
 #'
 #' @description Get the open, close prices of a symbol on a certain day.
 #'
-#' @param from (string) From Symbol of the pair.
-#' @param to (string) To Symbol of the pair.
-#' @param date (string) Date of the requested open/close.
+#' @param from (Date) From Symbol of the pair.
+#' @param to (Date) To Symbol of the pair.
+#' @param date (Date) Date of the requested open/close.
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -18,9 +18,13 @@
 #' )
 #' }
 get_open_close_crypto <- function(from, to, date) {
-  stopifnot(is.character(from))
-  stopifnot(is.character(to))
-  stopifnot(is.character(date))
+  stopifnot(inherits(from, 'Date'))
+  stopifnot(inherits(to, 'Date'))
+  stopifnot(inherits(date, 'Date'))
+
+  from <- as.character(from)
+  to <- as.character(to)
+  date <- as.character(date)
 
   # construct endpoint
   base_url <- glue::glue("{site()}/v1/open-close/crypto/{from}/{to}/{date}")

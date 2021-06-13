@@ -25,9 +25,9 @@ Crypto: 'X:BTCUSD'}
 Options include: 'minute', 'hour', 'day', 'week', 'month',
 'quarter', 'year'.}
 
-\item{from}{(string) From date ('YYYY-MM-DD').}
+\item{from}{(Date) From date ('YYYY-MM-DD').}
 
-\item{to}{(string) To date ('YYYY-MM-DD').}
+\item{to}{(Date) To date ('YYYY-MM-DD').}
 }
 \value{
 A tibble of financial data.

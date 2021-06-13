@@ -9,7 +9,7 @@ get_historic_quotes(ticker, date)
 \arguments{
 \item{ticker}{(string) An appropriate Ticker}
 
-\item{date}{(string) Date of the historic ticks to retrieve ('YYYY-MM-DD').}
+\item{date}{(Date) Date of the historic ticks to retrieve ('YYYY-MM-DD').}
 }
 \value{
 A tibble of financial data.
@@ -23,7 +23,7 @@ library(polygon)
 
 get_historic_quotes(
 ticker = "AAPL",
-date = "2019-01-01"
+date = Sys.Date() - 30
 )
 }
 }

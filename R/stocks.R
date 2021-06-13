@@ -3,7 +3,7 @@
 #' @description Get historic NBBO quotes for a ticker.
 #'
 #' @param ticker (string) An appropriate Ticker
-#' @param date  (string) Date of the historic ticks to retrieve ('YYYY-MM-DD').
+#' @param date  (Date) Date of the historic ticks to retrieve ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -14,12 +14,13 @@
 #'
 #' get_historic_quotes(
 #' ticker = "AAPL",
-#' date = "2019-01-01"
+#' date = Sys.Date() - 30
 #' )
 #' }
 get_historic_quotes <- function(ticker, date) {
   stopifnot(is.character(ticker))
-  stopifnot(is.character(date))
+  stopifnot(inherits(date, 'Date'))
+  date <- as.character(date)
   # construct endpoint
   base_url <- glue::glue("{site()}/v2/ticks/stocks/nbbo/{ticker}/{date}")
   url <- httr::modify_url(
@@ -115,7 +116,7 @@ get_previous_close <- function(ticker) {
 #' \dontrun{
 #' library(polygon)
 #'
-#' get_snapshot_all_tickers_stocks(ticker = "AAPL")
+#' get_snapshot_all_tickers_stocks()
 #' }
 get_snapshot_all_tickers_stocks <- function() {
   # construct endpoint
@@ -145,8 +146,8 @@ get_snapshot_all_tickers_stocks <- function() {
 #' @param timespan (string) Size of the time window.
 #' Options include: 'minute', 'hour', 'day', 'week', 'month',
 #' 'quarter', 'year'.
-#' @param from (string) From date ('YYYY-MM-DD').
-#' @param to (string) To date ('YYYY-MM-DD').
+#' @param from (Date) From date ('YYYY-MM-DD').
+#' @param to (Date) To date ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -170,10 +171,12 @@ get_aggregates <- function(
 ) {
   timespan <- rlang::arg_match(timespan)
   stopifnot(is.character(ticker))
-  stopifnot(is.character(from))
-  stopifnot(is.character(to))
   stopifnot(rlang::is_integerish(multiplier))
+  stopifnot(inherits(from, 'Date'))
+  stopifnot(inherits(to, 'Date'))
 
+  from <- as.character(from)
+  to <- as.character(to)
   # construct endpoint
   base_url <- glue::glue(
     "{site()}/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
@@ -208,7 +211,7 @@ get_aggregates <- function(
 #' @param market (integer) Market of the aggregates. Run `get_locales()` to get
 #' a list of all possible locales.
 #' options include: "STOCKS", "CRYPTO", "BONDS", "MF", "MMF", "INDICES", "FX".
-#' @param date (string) From date ('YYYY-MM-DD').
+#' @param date (Date) From date ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -220,7 +223,8 @@ get_aggregates <- function(
 #' )
 #' }
 get_grouped_daily_bars <- function(date){
-  stopifnot(is.character(date))
+  stopifnot(inherits(date, 'Date'))
+  date <- as.character(date)
 
   # construct endpoint
   base_url <- glue::glue("{site()}/v2/aggs/grouped/locale/us/market/stocks/{date}")

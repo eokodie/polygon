@@ -7,7 +7,7 @@
 get_grouped_daily_bars(date)
 }
 \arguments{
-\item{date}{(string) From date ('YYYY-MM-DD').}
+\item{date}{(Date) From date ('YYYY-MM-DD').}
 
 \item{locale}{(string) Locale of the aggregates. Run `get_locales()` to get
 a list of all possible locales.}

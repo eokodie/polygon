@@ -7,11 +7,11 @@
 get_open_close_crypto(from, to, date)
 }
 \arguments{
-\item{from}{(string) From Symbol of the pair.}
+\item{from}{(Date) From Symbol of the pair.}
 
-\item{to}{(string) To Symbol of the pair.}
+\item{to}{(Date) To Symbol of the pair.}
 
-\item{date}{(string) Date of the requested open/close.}
+\item{date}{(Date) Date of the requested open/close.}
 }
 \value{
 A tibble of financial data.
