@@ -125,7 +125,7 @@ fivethemes:::plot_candlestick(df, title = "Apple Inc.")
 You can get the list of currently supported locales with:
 
 ``` r
-get_locales()
+polygon::get_locales()
 
 # # A tibble: 19 x 2
 #    locale name                    

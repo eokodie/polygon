@@ -7,11 +7,12 @@
 #' @export
 polygon_auth <- function(){
   token <- Sys.getenv("POLYGON_TOKEN")
-  if(!nzchar(token))
-    stop(
-      "Set POLYGON_TOKEN environment variable. \nIf you don't have an API key,",
-      " you can obtain one from the [Polygon.io Website](https://polygon.io/)."
-    )
+  msg <- paste0(
+    "Please set env var POLYGON_TOKEN to your polygon personal access token.\n",
+    "If you don't have an API key, you can obtain one from https://polygon.io/"
+  )
+  if (!nzchar(token)) stop(msg, call. = FALSE)
+
   token
 }
 

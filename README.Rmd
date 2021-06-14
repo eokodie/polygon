@@ -137,7 +137,7 @@ knitr::include_graphics("man/figures/candlestick.png")
 
 You can get the list of currently supported locales with:
 ```{r, eval=FALSE}
-get_locales()
+polygon::get_locales()
 
 # # A tibble: 19 x 2
 #    locale name                    

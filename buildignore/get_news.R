@@ -49,7 +49,8 @@ format_news <- function(content){
     tibble::as_tibble()
 
   out <- dplyr::bind_cols(news_tbl, content$results$publisher) %>%
-    dplyr::mutate(timestamp = lubridate::as_datetime(published_utc))
+    dplyr::mutate(timestamp = lubridate::as_datetime(published_utc)) %>%
+    dplyr::select(-id)
   out
 }
 
