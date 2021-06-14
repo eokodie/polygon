@@ -26,6 +26,7 @@ get_news <- function(ticker, publish_date = Sys.Date()-1, limit = 100){
       apiKey            = polygon_auth()
     )
   )
+
   response <- httr::GET(url)
   content <- parse_response(response)
   format_news(content)

@@ -202,13 +202,10 @@ get_aggregates <- function(
 #'
 #' @description Get the daily OHLC for entire markets..
 #'
-#' @param locale (string) Locale of the aggregates. Run `get_locales()` to get
-#' a list of all possible locales.
-#'
-#' @param market (integer) Market of the aggregates. Run `get_locales()` to get
-#' a list of all possible locales.
-#' options include: "STOCKS", "CRYPTO", "BONDS", "MF", "MMF", "INDICES", "FX".
 #' @param date (Date) From date ('YYYY-MM-DD').
+#' @param unadjusted (Logical) Whether or not the results are adjusted
+#' for splits. By default, results are adjusted. Set this to true to
+#' get results that are NOT adjusted for splits.
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -219,7 +216,7 @@ get_aggregates <- function(
 #' date = Sys.Date() - 1
 #' )
 #' }
-get_grouped_daily_bars <- function(date){
+get_grouped_daily_bars <- function(date, unadjusted = FALSE){
   stopifnot(inherits(date, 'Date'))
   date <- as.character(date)
 
@@ -228,9 +225,11 @@ get_grouped_daily_bars <- function(date){
     url   = site(),
     path  = glue::glue("/v2/aggs/grouped/locale/us/market/stocks/{date}"),
     query = list(
-      apiKey = polygon_auth()
+      unadjusted = tolower(as.character(unadjusted)),
+      apiKey     = polygon_auth()
     )
   )
+
   # get response
   response <- httr::GET(url)
   content <- parse_response(response)

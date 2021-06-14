@@ -6,6 +6,7 @@ parse_response <- function(response){
   if (httr::http_type(response) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
+
   out <- jsonlite::fromJSON(httr::content(response, "text", encoding = "UTF-8"))
 
   if (httr::http_error(response)) {
