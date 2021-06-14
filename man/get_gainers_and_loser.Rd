@@ -4,11 +4,9 @@
 \alias{get_gainers_and_loser}
 \title{get_gainers_and_loser}
 \usage{
-get_gainers_and_loser(token, direction = c("gainers", "losers"))
+get_gainers_and_loser(direction = c("gainers", "losers"))
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
-
 \item{direction}{(string) Direction we want. Options include: "gainers" and
 "losers".}
 }
@@ -22,7 +20,6 @@ of the day.
 \examples{
 \dontrun{
 library(polygon)
-token = "YOUR_POLYGON_TOKEN",
-get_gainers_and_loser(token, "gainers")
+get_gainers_and_loser("gainers")
 }
 }

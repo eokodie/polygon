@@ -37,7 +37,7 @@ This class manages WebSocket connections to polygon.io clusters.
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{WebSocket$new(cluster, token)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{WebSocket$new(cluster)}\if{html}{\out{</div>}}
 }
 
 }
@@ -64,7 +64,7 @@ This class manages WebSocket connections to polygon.io clusters.
 \if{latex}{\out{\hypertarget{method-authenticate}{}}}
 \subsection{Method \code{authenticate()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{WebSocket$authenticate(token)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{WebSocket$authenticate()}\if{html}{\out{</div>}}
 }
 
 }

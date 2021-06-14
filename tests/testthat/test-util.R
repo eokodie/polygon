@@ -1,7 +1,3 @@
-test_that("check_http_status works", {
-  expect_error(check_http_status(2), "response")
-})
-
 test_that("create_friendly_names works", {
 
   expect_error(create_friendly_names(2), "data.frame")

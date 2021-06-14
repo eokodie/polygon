@@ -4,16 +4,14 @@
 \alias{get_open_close_crypto}
 \title{Daily Open/Close for Crypto}
 \usage{
-get_open_close_crypto(token, from, to, date)
+get_open_close_crypto(from, to, date)
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
+\item{from}{(String) From Symbol of the pair.}
 
-\item{from}{(string) From Symbol of the pair.}
+\item{to}{(String) To Symbol of the pair.}
 
-\item{to}{(string) To Symbol of the pair.}
-
-\item{date}{(string) Date of the requested open/close.}
+\item{date}{(Date) Date of the requested open/close.}
 }
 \value{
 A tibble of financial data.
@@ -25,10 +23,9 @@ Get the open, close prices of a symbol on a certain day.
 \dontrun{
 library(polygon)
 get_open_close_crypto(
-token = "YOUR_POLYGON_TOKEN",
 from = "BTC",
 to = "USD",
-date = "2019-01-01"
+date = Sys.Date() - 1
 )
 }
 }

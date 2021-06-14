@@ -4,11 +4,9 @@
 \alias{get_previous_close}
 \title{get_previous_close}
 \usage{
-get_previous_close(token, ticker)
+get_previous_close(ticker)
 }
 \arguments{
-\item{token}{A valid token for polygonio (character string).}
-
 \item{ticker}{A character string of an appropriate Ticker.}
 }
 \value{
@@ -22,7 +20,6 @@ Get the previous day close for the specified ticker
 library(polygon)
 
 get_previous_close(
-token = "YOUR_POLYGON_TOKEN",
 ticker = "AAPL"
 )
 }

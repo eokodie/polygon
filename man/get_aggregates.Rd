@@ -5,7 +5,6 @@
 \title{get_aggregates}
 \usage{
 get_aggregates(
-  token,
   ticker,
   multiplier,
   timespan = c("minute", "hour", "day", "week", "month", "quarter", "year"),
@@ -14,8 +13,6 @@ get_aggregates(
 )
 }
 \arguments{
-\item{token}{(string) A valid token for polygonio.}
-
 \item{ticker}{(string) Ticker symbol of the request.
 Some tickers require a prefix, see examples below:
 Stocks: 'AAPL'
@@ -28,9 +25,9 @@ Crypto: 'X:BTCUSD'}
 Options include: 'minute', 'hour', 'day', 'week', 'month',
 'quarter', 'year'.}
 
-\item{from}{(string) From date ('YYYY-MM-DD').}
+\item{from}{(Date) From date ('YYYY-MM-DD').}
 
-\item{to}{(string) To date ('YYYY-MM-DD').}
+\item{to}{(Date) To date ('YYYY-MM-DD').}
 }
 \value{
 A tibble of financial data.
@@ -43,12 +40,11 @@ time window sizes for a ticker.
 \dontrun{
 library(polygon)
 get_aggregates(
-token = "YOUR_POLYGON_TOKEN",
 ticker = "AAPL",
 multiplier = 1,
 timespan = "day",
-from = "2019-01-01",
-to = "2019-02-01"
+from = Sys.Date() - 20,
+to = Sys.Date() - 1
 )
 }
 }

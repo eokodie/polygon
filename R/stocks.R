@@ -2,9 +2,8 @@
 #'
 #' @description Get historic NBBO quotes for a ticker.
 #'
-#' @param token (string) A valid token for polygonio.
 #' @param ticker (string) An appropriate Ticker
-#' @param date  (string) Date of the historic ticks to retrieve ('YYYY-MM-DD').
+#' @param date  (Date) Date of the historic ticks to retrieve ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -14,31 +13,25 @@
 #' library(polygon)
 #'
 #' get_historic_quotes(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
-#' date = "2019-01-01"
+#' date = Sys.Date() - 30
 #' )
 #' }
-get_historic_quotes <- function(token, ticker, date) {
-  stopifnot(is.character(token))
+get_historic_quotes <- function(ticker, date) {
   stopifnot(is.character(ticker))
-  stopifnot(is.character(date))
+  stopifnot(inherits(date, 'Date'))
+  date <- as.character(date)
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/ticks/stocks/nbbo/{ticker}/{date}"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/ticks/stocks/nbbo/{ticker}/{date}"),
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
   out <- tibble::tibble(content$results)
   create_friendly_names(out)
 }
@@ -47,29 +40,24 @@ get_historic_quotes <- function(token, ticker, date) {
 #' get_exchanges
 #'
 #' @description Get list of stock exchanges which are supported by Polygon.io
-#' @param token (string) A valid token for polygonio.
 #' @return A tibble.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' library(polygon)
-#' token = "YOUR_POLYGON_TOKEN",
-#' get_exchanges(token)
+#' get_exchanges()
 #' }
-get_exchanges <- function(token) {
-  stopifnot(is.character(token))
+get_exchanges <- function() {
   url <- httr::modify_url(
     url   = "https://api.polygon.io/v1/meta/exchanges",
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
 
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
   tibble::tibble(content)
 }
 
@@ -77,7 +65,6 @@ get_exchanges <- function(token) {
 #'
 #' @description Get the previous day close for the specified ticker
 #'
-#' @param token A valid token for polygonio (character string).
 #' @param ticker A character string of an appropriate Ticker.
 #' @return A tibble of financial data.
 #' @export
@@ -87,31 +74,22 @@ get_exchanges <- function(token) {
 #' library(polygon)
 #'
 #' get_previous_close(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL"
 #' )
 #' }
-get_previous_close <- function(token, ticker) {
-  stopifnot(is.character(token))
+get_previous_close <- function(ticker) {
   stopifnot(is.character(ticker))
-
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/ticker/{ticker}/prev"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "/v2/aggs/ticker/{ticker}/prev",
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
-  out <- tibble::tibble(content$results)
+  content <- parse_response(response)
 
   # clean response
   old_names <- c("T", "v", "o", "c", "h", "l", "t")
@@ -131,7 +109,6 @@ get_previous_close <- function(token, ticker) {
 #' minute aggregate, daily aggregate and last trade.
 #' As well as previous days aggregate and calculated change for today.
 #'
-#' @param token A valid token for polygonio (character string).
 #' @return A tibble of financial data.
 #' @export
 #'
@@ -139,29 +116,19 @@ get_previous_close <- function(token, ticker) {
 #' \dontrun{
 #' library(polygon)
 #'
-#' get_snapshot_all_tickers_stocks(
-#' token = "YOUR_POLYGON_TOKEN",
-#' ticker = "AAPL"
-#' )
+#' get_snapshot_all_tickers_stocks()
 #' }
-get_snapshot_all_tickers_stocks <- function(token) {
-  stopifnot(is.character(token))
-  # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/us/markets/stocks/tickers"
-  )
+get_snapshot_all_tickers_stocks <- function() {
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "/v2/snapshot/locale/us/markets/stocks/tickers",
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }
 
@@ -169,8 +136,6 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #'
 #' @description Get OHLC aggregates for a date range, in custom
 #' time window sizes for a ticker.
-#'
-#' @param token (string) A valid token for polygonio.
 #' @param ticker (string) Ticker symbol of the request.
 #' Some tickers require a prefix, see examples below:
 #' Stocks: 'AAPL'
@@ -180,8 +145,8 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #' @param timespan (string) Size of the time window.
 #' Options include: 'minute', 'hour', 'day', 'week', 'month',
 #' 'quarter', 'year'.
-#' @param from (string) From date ('YYYY-MM-DD').
-#' @param to (string) To date ('YYYY-MM-DD').
+#' @param from (Date) From date ('YYYY-MM-DD').
+#' @param to (Date) To date ('YYYY-MM-DD').
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -189,16 +154,14 @@ get_snapshot_all_tickers_stocks <- function(token) {
 #' \dontrun{
 #' library(polygon)
 #' get_aggregates(
-#' token = "YOUR_POLYGON_TOKEN",
 #' ticker = "AAPL",
 #' multiplier = 1,
 #' timespan = "day",
-#' from = "2019-01-01",
-#' to = "2019-02-01"
+#' from = Sys.Date() - 20,
+#' to = Sys.Date() - 1
 #' )
 #' }
 get_aggregates <- function(
-  token,
   ticker,
   multiplier,
   timespan = c('minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'),
@@ -206,28 +169,24 @@ get_aggregates <- function(
   to
 ) {
   timespan <- rlang::arg_match(timespan)
-  stopifnot(is.character(token))
   stopifnot(is.character(ticker))
-  stopifnot(is.character(from))
-  stopifnot(is.character(to))
   stopifnot(rlang::is_integerish(multiplier))
+  stopifnot(inherits(from, 'Date'))
+  stopifnot(inherits(to, 'Date'))
 
+  from <- as.character(from)
+  to <- as.character(to)
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"),
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
 
   # clean response
   old_names <- c("v", "o", "c", "h", "l", "t")
@@ -243,14 +202,10 @@ get_aggregates <- function(
 #'
 #' @description Get the daily OHLC for entire markets..
 #'
-#' @param token (string) A valid token for polygonio.
-#' @param locale (string) Locale of the aggregates. Run `get_locales()` to get
-#' a list of all possible locales.
-#'
-#' @param market (integer) Market of the aggregates. Run `get_locales()` to get
-#' a list of all possible locales.
-#' options include: "STOCKS", "CRYPTO", "BONDS", "MF", "MMF", "INDICES", "FX".
-#' @param date (string) From date ('YYYY-MM-DD').
+#' @param date (Date) From date ('YYYY-MM-DD').
+#' @param unadjusted (Logical) Whether or not the results are adjusted
+#' for splits. By default, results are adjusted. Set this to true to
+#' get results that are NOT adjusted for splits.
 #'
 #' @return A tibble of financial data.
 #' @export
@@ -258,31 +213,26 @@ get_aggregates <- function(
 #' \dontrun{
 #' library(polygon)
 #' get_aggregates(
-#' token = "YOUR_POLYGON_TOKEN",
-#' date = "2020-12-11"
+#' date = Sys.Date() - 1
 #' )
 #' }
-get_grouped_daily_bars <- function(token, date){
-
-  stopifnot(is.character(token))
-  stopifnot(is.character(date))
+get_grouped_daily_bars <- function(date, unadjusted = FALSE){
+  stopifnot(inherits(date, 'Date'))
+  date <- as.character(date)
 
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/aggs/grouped/locale/us/market/stocks/{date}"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/aggs/grouped/locale/us/market/stocks/{date}"),
     query = list(
-      apiKey = token
+      unadjusted = tolower(as.character(unadjusted)),
+      apiKey     = polygon_auth()
     )
   )
+
   # get response
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
   out <- tibble::tibble(content$results)
   stopifnot(nrow(out) > 0)
 
@@ -299,7 +249,6 @@ get_grouped_daily_bars <- function(token, date){
 #' get_gainers_and_loser
 #' @description Get the current snapshot of the top 20 gainers or losers
 #' of the day.
-#' @param token (string) A valid token for polygonio.
 #' @param direction (string) Direction we want. Options include: "gainers" and
 #' "losers".
 #' @return A tibble.
@@ -308,27 +257,21 @@ get_grouped_daily_bars <- function(token, date){
 #' @examples
 #' \dontrun{
 #' library(polygon)
-#' token = "YOUR_POLYGON_TOKEN",
-#' get_gainers_and_loser(token, "gainers")
+#' get_gainers_and_loser("gainers")
 #' }
-get_gainers_and_loser <- function(token, direction = c("gainers", "losers")) {
+get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   rlang::arg_match(direction)
-  stopifnot(is.character(token))
   # construct endpoint
-  base_url <- glue::glue(
-    "https://api.polygon.io",
-    "/v2/snapshot/locale/us/markets/stocks/{direction}",
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/snapshot/locale/us/markets/stocks/{direction}"),
     query = list(
-      apiKey = token
+      apiKey = polygon_auth()
     )
   )
   response <- httr::GET(url)
-  check_http_status(response)
-  content <- httr::content(response, "text", encoding = "UTF-8")
-  content <- jsonlite::fromJSON(content)
+  content <- parse_response(response)
   tibble::tibble(content$tickers)
 }
+
 

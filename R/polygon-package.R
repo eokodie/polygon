@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @aliases polygon-package
-#utils::globalVariables(c("out", "font_family", "title_family"))
+utils::globalVariables(c(".data"))
 "_PACKAGE"
 
 # The following block is used by usethis to automatically manage

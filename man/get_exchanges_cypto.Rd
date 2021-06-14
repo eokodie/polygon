@@ -4,10 +4,7 @@
 \alias{get_exchanges_cypto}
 \title{get_exchanges_cypto}
 \usage{
-get_exchanges_cypto(token)
-}
-\arguments{
-\item{token}{(string) A valid token for polygonio.}
+get_exchanges_cypto()
 }
 \value{
 A tibble.
@@ -18,7 +15,6 @@ Get list of crypto currency exchanges which are supported by Polygon.io
 \examples{
 \dontrun{
 library(polygon)
-token = "YOUR_POLYGON_TOKEN",
-get_exchanges_cypto(token)
+get_exchanges_cypto()
 }
 }

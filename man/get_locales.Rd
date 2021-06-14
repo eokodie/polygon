@@ -4,10 +4,7 @@
 \alias{get_locales}
 \title{get_locales}
 \usage{
-get_locales(token)
-}
-\arguments{
-\item{token}{(string) A valid token for polygonio.}
+get_locales()
 }
 \value{
 A tibble.
@@ -18,7 +15,6 @@ Get the list of currently supported locales
 \examples{
 \dontrun{
 library(polygon)
-token = "YOUR_POLYGON_TOKEN",
-get_locales(token)
+get_locales()
 }
 }
