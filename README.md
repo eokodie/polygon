@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # polygon
 
 <div align="left">
@@ -72,8 +70,8 @@ ws$close()
 
 ![](man/figures//websocket_v2.gif)
 
-The `polygon` package enables connection to 3 separate real-time
-clusters. One for each market type:
+The `polygon` package enables connection to 3 real-time clusters. One
+for each market type:
 
 | Cluster        | Websocket Implementation |
 |:---------------|:------------------------:|
@@ -81,7 +79,7 @@ clusters. One for each market type:
 | Forex Cluster  |   :heavy\_check\_mark:   |
 | Crypto Cluster |   :heavy\_check\_mark:   |
 
-## REST API
+## REST
 
 The REST client is implemented with a functional interface. Below are
 some examples.
@@ -89,28 +87,27 @@ some examples.
 You can download Apple quotes data with:
 
 ``` r
-data <- polygon::get_aggregates(
+polygon::get_aggregates(
   ticker     = "AAPL",
   multiplier = 15,
   timespan   = "minute",
-  from       = "2020-11-03",
-  to         = "2020-11-03"
-) 
-df <- head(data, 20)
-df
-# # A tibble: 20 x 6
-#    volume  open close  high   low time               
-#     <dbl> <dbl> <dbl> <dbl> <dbl> <dttm>             
-#  1  18873  113.  113.  113.  113. 2020-10-06 22:20:00
-#  2  19200  113.  113.  113.  113. 2020-10-06 22:25:00
-#  3  48628  113.  113.  113.  113. 2020-10-06 22:30:00
-#  4  18053  113.  113.  113.  113. 2020-10-06 22:35:00
-#  5  26782  113.  113.  113.  113. 2020-10-06 22:40:00
-#  6  35494  113.  113.  113.  113. 2020-10-06 22:45:00
-#  7  53465  113.  113.  113.  113. 2020-10-06 22:50:00
-#  8  22497  113.  113.  113.  113. 2020-10-06 22:55:00
-#  9  27947  113.  113.  113.  113. 2020-10-06 23:00:00
-# 10  14125  113.  113.  113.  113. 2020-10-06 23:05:00
+  from       = as.Date("2020-11-03"),
+  to         = as.Date("2020-11-03")
+)
+#> # A tibble: 64 x 6
+#>    volume  open close  high   low time               
+#>     <dbl> <dbl> <dbl> <dbl> <dbl> <dttm>             
+#>  1  18425  110.  110.  110.  109. 2020-11-03 09:00:00
+#>  2  12067  110.  110.  110.  110. 2020-11-03 09:15:00
+#>  3  14066  110.  110.  110.  110. 2020-11-03 09:30:00
+#>  4  12468  110.  109.  110.  109. 2020-11-03 09:45:00
+#>  5   8804  109.  109.  110.  109. 2020-11-03 10:00:00
+#>  6   7713  110.  110.  110.  110. 2020-11-03 10:15:00
+#>  7  12345  110.  110.  110.  110. 2020-11-03 10:30:00
+#>  8  10551  110.  109.  110.  109. 2020-11-03 10:45:00
+#>  9  14786  109.  109.  110.  109. 2020-11-03 11:00:00
+#> 10  18022  109.  109.  109.  109. 2020-11-03 11:15:00
+#> # … with 54 more rows
 ```
 
 Which looks like this:
