@@ -3,7 +3,7 @@
 
 # polygon
 
-<div align="center">
+<div align="left">
 
 <!-- hex -->
 <!-- <img src="./man/figures/logo.png" height = "200px" /> -->
