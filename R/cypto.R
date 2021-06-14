@@ -23,7 +23,6 @@ get_open_close_crypto <- function(from, to, date) {
   stopifnot(inherits(date, 'Date'))
 
   date <- as.character(date)
-  # construct endpoint
   url <- httr::modify_url(
     url   = site(),
     path  = glue::glue("/v1/open-close/crypto/{from}/{to}/{date}"),
@@ -31,7 +30,7 @@ get_open_close_crypto <- function(from, to, date) {
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
   content
@@ -78,7 +77,6 @@ get_exchanges_cypto <- function() {
 #' get_snapshot_all_tickers_cypto()
 #' }
 get_snapshot_all_tickers_cypto <- function() {
-  # construct endpoint
   url <- httr::modify_url(
     url   = site(),
     path  = "v2/snapshot/locale/global/markets/crypto/tickers",
@@ -86,7 +84,7 @@ get_snapshot_all_tickers_cypto <- function() {
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
   tibble::tibble(content$tickers)
