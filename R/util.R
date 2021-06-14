@@ -72,3 +72,24 @@ get_secret <- function() {
 site <- function() {
   "https://api.polygon.io"
 }
+
+#' @keywords internal
+format_news <- function(content){
+  news_tbl <- content$results %>%
+    dplyr::select(-publisher) %>%
+    dplyr::mutate(
+      tickers = .$tickers %>% purrr::map_chr(~glue::glue_collapse(., sep = ", "))
+    ) %>%
+    dplyr::mutate(
+      keywords = .$keywords %>% purrr::map(~ifelse(rlang::is_null(.x), "", .x))
+    ) %>%
+    dplyr::mutate(
+      keywords = .$keywords %>% purrr::map_chr(~glue::glue_collapse(., sep = ", "))
+    ) %>%
+    tibble::as_tibble()
+
+  out <- dplyr::bind_cols(news_tbl, content$results$publisher) %>%
+    dplyr::mutate(timestamp = lubridate::as_datetime(published_utc)) %>%
+    dplyr::select(-id)
+  out
+}

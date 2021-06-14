@@ -3,7 +3,8 @@ Title: R Websocket & REST API client for Polygon
 Version: 0.0.0.9
 Authors@R: c(
     person("Ernest", "Omane-Kodie", email = "eokodie@gmail.com", role = c("aut", "cre")),
-    person("Winston", "Chang", role = "ctb", comment = "Event queue processing")
+    person("Winston", "Chang", role = "ctb", comment = "Event queue processing"),
+    person("Simit", "Patel", email = "simit@sixjupiter.com", role = "ctb", comment = "News")
     )
 Description: polygon provides an R WebSocket and RESTful API client for polygon.io.
     polygon.io is a platform for real-time and historical financial market data
@@ -25,7 +26,8 @@ Imports:
     later,
     secret,
     withr,
-    here
+    here,
+    purrr
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,

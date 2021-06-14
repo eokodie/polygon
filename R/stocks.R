@@ -21,7 +21,7 @@ get_historic_quotes <- function(ticker, date) {
   stopifnot(is.character(ticker))
   stopifnot(inherits(date, 'Date'))
   date <- as.character(date)
-  # construct endpoint
+
   url <- httr::modify_url(
     url   = site(),
     path  = glue::glue("/v2/ticks/stocks/nbbo/{ticker}/{date}"),
@@ -29,7 +29,7 @@ get_historic_quotes <- function(ticker, date) {
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
   out <- tibble::tibble(content$results)
@@ -79,7 +79,7 @@ get_exchanges <- function() {
 #' }
 get_previous_close <- function(ticker) {
   stopifnot(is.character(ticker))
-  # construct endpoint
+
   url <- httr::modify_url(
     url   = site(),
     path  = "/v2/aggs/ticker/{ticker}/prev",
@@ -87,11 +87,10 @@ get_previous_close <- function(ticker) {
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
 
-  # clean response
   old_names <- c("T", "v", "o", "c", "h", "l", "t")
   new_names <- c("ticker", "volume", "open", "close", "high", "low", "time")
   out <- tibble::tibble(content$results) %>%
@@ -126,7 +125,7 @@ get_snapshot_all_tickers_stocks <- function() {
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
   tibble::tibble(content$tickers)
@@ -176,7 +175,7 @@ get_aggregates <- function(
 
   from <- as.character(from)
   to <- as.character(to)
-  # construct endpoint
+
   url <- httr::modify_url(
     url   = site(),
     path  = glue::glue("v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"),
@@ -184,7 +183,7 @@ get_aggregates <- function(
       apiKey = polygon_auth()
     )
   )
-  # get response
+
   response <- httr::GET(url)
   content <- parse_response(response)
 
@@ -220,7 +219,6 @@ get_grouped_daily_bars <- function(date, unadjusted = FALSE){
   stopifnot(inherits(date, 'Date'))
   date <- as.character(date)
 
-  # construct endpoint
   url <- httr::modify_url(
     url   = site(),
     path  = glue::glue("/v2/aggs/grouped/locale/us/market/stocks/{date}"),
@@ -230,13 +228,11 @@ get_grouped_daily_bars <- function(date, unadjusted = FALSE){
     )
   )
 
-  # get response
   response <- httr::GET(url)
   content <- parse_response(response)
   out <- tibble::tibble(content$results)
   stopifnot(nrow(out) > 0)
 
-  # clean response
   old_names <- c("T", "v", "vw", "o", "c", "h", "l", "t")
   new_names <- c("ticker", "volume","weighted volume",
                  "open", "close", "high", "low", "time")
@@ -261,7 +257,7 @@ get_grouped_daily_bars <- function(date, unadjusted = FALSE){
 #' }
 get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   rlang::arg_match(direction)
-  # construct endpoint
+
   url <- httr::modify_url(
     url   = site(),
     path  = glue::glue("/v2/snapshot/locale/us/markets/stocks/{direction}"),
