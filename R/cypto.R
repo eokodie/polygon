@@ -24,9 +24,9 @@ get_open_close_crypto <- function(from, to, date) {
 
   date <- as.character(date)
   # construct endpoint
-  base_url <- glue::glue("{site()}/v1/open-close/crypto/{from}/{to}/{date}")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v1/open-close/crypto/{from}/{to}/{date}"),
     query = list(
       apiKey = polygon_auth()
     )
@@ -50,12 +50,12 @@ get_open_close_crypto <- function(from, to, date) {
 #' }
 get_exchanges_cypto <- function() {
   url <- httr::modify_url(
-    url   = "https://api.polygon.io/v1/meta/crypto-exchanges",
+    url   = site(),
+    path  = "v1/meta/crypto-exchanges",
     query = list(
       apiKey = polygon_auth()
     )
   )
-
   response <- httr::GET(url)
   content <- parse_response(response)
   tibble::tibble(content)
@@ -79,9 +79,9 @@ get_exchanges_cypto <- function() {
 #' }
 get_snapshot_all_tickers_cypto <- function() {
   # construct endpoint
-  base_url <- glue::glue("{site()}/v2/snapshot/locale/global/markets/crypto/tickers")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "v2/snapshot/locale/global/markets/crypto/tickers",
     query = list(
       apiKey = polygon_auth()
     )

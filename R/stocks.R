@@ -22,9 +22,9 @@ get_historic_quotes <- function(ticker, date) {
   stopifnot(inherits(date, 'Date'))
   date <- as.character(date)
   # construct endpoint
-  base_url <- glue::glue("{site()}/v2/ticks/stocks/nbbo/{ticker}/{date}")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/ticks/stocks/nbbo/{ticker}/{date}"),
     query = list(
       apiKey = polygon_auth()
     )
@@ -80,9 +80,9 @@ get_exchanges <- function() {
 get_previous_close <- function(ticker) {
   stopifnot(is.character(ticker))
   # construct endpoint
-  base_url <- glue::glue("{site()}/v2/aggs/ticker/{ticker}/prev")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "/v2/aggs/ticker/{ticker}/prev",
     query = list(
       apiKey = polygon_auth()
     )
@@ -119,10 +119,9 @@ get_previous_close <- function(ticker) {
 #' get_snapshot_all_tickers_stocks()
 #' }
 get_snapshot_all_tickers_stocks <- function() {
-  # construct endpoint
-  base_url <- glue::glue("{site()}/v2/snapshot/locale/us/markets/stocks/tickers")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "/v2/snapshot/locale/us/markets/stocks/tickers",
     query = list(
       apiKey = polygon_auth()
     )
@@ -178,11 +177,9 @@ get_aggregates <- function(
   from <- as.character(from)
   to <- as.character(to)
   # construct endpoint
-  base_url <- glue::glue(
-    "{site()}/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}"),
     query = list(
       apiKey = polygon_auth()
     )
@@ -227,9 +224,9 @@ get_grouped_daily_bars <- function(date){
   date <- as.character(date)
 
   # construct endpoint
-  base_url <- glue::glue("{site()}/v2/aggs/grouped/locale/us/market/stocks/{date}")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/aggs/grouped/locale/us/market/stocks/{date}"),
     query = list(
       apiKey = polygon_auth()
     )
@@ -266,11 +263,9 @@ get_grouped_daily_bars <- function(date){
 get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   rlang::arg_match(direction)
   # construct endpoint
-  base_url <- glue::glue(
-    "{site()}/v2/snapshot/locale/us/markets/stocks/{direction}"
-  )
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("/v2/snapshot/locale/us/markets/stocks/{direction}"),
     query = list(
       apiKey = polygon_auth()
     )
@@ -279,4 +274,5 @@ get_gainers_and_loser <- function(direction = c("gainers", "losers")) {
   content <- parse_response(response)
   tibble::tibble(content$tickers)
 }
+
 

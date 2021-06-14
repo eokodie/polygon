@@ -16,14 +16,13 @@
 #' )
 #' }
 get_snapshot_all_tickers_forex <- function() {
-  base_url <- glue::glue("{site()}/v2/snapshot/locale/global/markets/forex/tickers")
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = glue::glue("v2/snapshot/locale/global/markets/forex/tickers"),
     query = list(
       apiKey = polygon_auth()
     )
   )
-
   response <- httr::GET(url)
   content <- parse_response(response)
   tibble::tibble(content$tickers)

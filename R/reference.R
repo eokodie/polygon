@@ -11,7 +11,8 @@
 #' }
 get_locales <- function() {
   url <- httr::modify_url(
-    url   = "https://api.polygon.io/v2/reference/locales",
+    url   = site(),
+    path  = "v2/snapshot/locale/global/markets/crypto/tickers",
     query = list(
       apiKey = polygon_auth()
     )

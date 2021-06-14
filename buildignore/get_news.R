@@ -15,10 +15,9 @@
 #' }
 get_news <- function(ticker, publish_date = Sys.Date()-1, limit = 100){
   stopifnot(is.numeric(limit))
-  base_url <- glue::glue("{site()}/v2/reference/news")
-
   url <- httr::modify_url(
-    base_url,
+    url   = site(),
+    path  = "/v2/reference/news",
     query = list(
       limit             = as.character(limit),
       order             = "descending",
@@ -27,7 +26,6 @@ get_news <- function(ticker, publish_date = Sys.Date()-1, limit = 100){
       apiKey            = polygon_auth()
     )
   )
-
   response <- httr::GET(url)
   content <- parse_response(response)
   format_news(content)
